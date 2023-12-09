@@ -83,6 +83,18 @@ export class BitSet {
     return this;
   }
 
+  public or(bits: IBits): BitSet {
+    const w = new BitSet(bits).w;
+
+    // Make this bitset _at least_ as long as the BitSet being passed
+    this.resize(w.length);
+
+    for (let i = 0; i < w.length; i++) {
+      this.w[i] |= w[i];
+    }
+    return this;
+  }
+
   public resize(length: number): BitSet {
     while (this.w.length < length) {
       this.w.push(0);

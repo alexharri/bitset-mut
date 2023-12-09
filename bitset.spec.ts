@@ -108,4 +108,17 @@ describe("BitSet", () => {
     bitset.and(BitSet.fromIndices([1, 3, 750]));
     expectBitIndices(bitset, [3, 750]);
   });
+
+  test("BitSet.or", () => {
+    const bitset = BitSet.fromIndices([1, 3, 6, 12]);
+
+    bitset.or(BitSet.fromIndices([3, 5, 6]));
+    expectBitIndices(bitset, [1, 3, 5, 6, 12]);
+
+    bitset.or(BitSet.fromIndices([500]));
+    expectBitIndices(bitset, [1, 3, 5, 6, 12, 500]);
+
+    bitset.or(BitSet.fromIndices([0, 1, 100, 738]));
+    expectBitIndices(bitset, [0, 1, 3, 5, 6, 12, 100, 500, 738]);
+  });
 });
