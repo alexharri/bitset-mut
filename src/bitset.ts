@@ -146,6 +146,19 @@ export class BitSet {
     return cardinality;
   }
 
+  public equals(bits: IBits): boolean {
+    let w0 = this.words;
+    let w1 = toWords(bits);
+    if (w0.length < w1.length) [w0, w1] = [w1, w0];
+    for (let i = 0; i < w1.length; i++) {
+      if (w0[i] !== w1[i]) return false;
+    }
+    for (let i = w1.length; i < w0.length; i++) {
+      if (w0[i] !== 0) return false;
+    }
+    return true;
+  }
+
   /**
    * Returns the number of bits that are in use by this BitSet
    */
@@ -173,7 +186,7 @@ export class BitSet {
     }
   }
 
-  public clone() {
+  public clone(): BitSet {
     return new BitSet(this);
   }
 

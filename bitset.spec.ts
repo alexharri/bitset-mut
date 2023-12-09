@@ -244,4 +244,30 @@ describe("BitSet", () => {
     expectBitIndices(bitset, [0, 5, 10]);
     expectBitIndices(clone, [0, 10]);
   });
+
+  test("BitSet.equals", () => {
+    expect(
+      BitSet.fromIndices([1, 10, 50]).equals(
+        BitSet.fromIndices([1, 10, 50, 100])
+      )
+    ).toEqual(false);
+    expect(
+      BitSet.fromIndices([1, 10, 50, 100]).equals(
+        BitSet.fromIndices([1, 10, 50])
+      )
+    ).toEqual(false);
+
+    const a = new BitSet(0b1001);
+    const b = new BitSet(0b1001);
+    expect(a.equals(b)).toEqual(true);
+    a.flip(100);
+    expect(a.equals(b)).toEqual(false);
+    a.flip(100);
+
+    // Even though the size/length of 'a' and 'b' is not the same, they're still equal
+    // because they have the same bits set to one
+    expect(a.size !== b.size).toEqual(true);
+    expect(a.length !== b.length).toEqual(true);
+    expect(a.equals(b)).toEqual(true);
+  });
 });
