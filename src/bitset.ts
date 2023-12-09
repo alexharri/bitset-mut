@@ -39,15 +39,12 @@ export class BitSet {
    * @param value 0 or 1
    */
   public set(index: number, value: number = 1) {
-    const wordIndex = index >> WORD_LOG;
-    const bitIndex = 1 << index;
-
-    this.resize(wordIndex + 1);
-
+    const [wi, bi] = parseIndex(index);
+    this.resize(wi + 1);
     if (value) {
-      this.w[wordIndex] |= bitIndex;
+      this.w[wi] |= bi;
     } else {
-      this.w[wordIndex] &= ~bitIndex;
+      this.w[wi] &= ~bi;
     }
   }
 
@@ -65,6 +62,10 @@ export class BitSet {
   public toString() {
     return toString(this.w);
   }
+}
+
+function parseIndex(index: number): [wordIndex: number, bitIndex: number] {
+  return [index >> WORD_LOG, 1 << index];
 }
 
 function toString(words: number[]) {
