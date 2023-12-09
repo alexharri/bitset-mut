@@ -48,6 +48,13 @@ export class BitSet {
     return this.set(index);
   }
 
+  /**
+   * Set bit at index to 0 (i.e. remove it from the set)
+   */
+  public remove(index: number): BitSet {
+    return this.set(index, 0);
+  }
+
   public setMultiple(indices: number[], value: number = 1): BitSet {
     indices.forEach((i) => this.set(i, value));
     return this;
@@ -122,6 +129,17 @@ export class BitSet {
   }
 
   /**
+   * @returns the number of bits set to 1 in this BitSet
+   */
+  public get cardinality(): number {
+    let cardinality = 0;
+    for (const w of this.w) {
+      cardinality += numberOfBitsSetToOne(w);
+    }
+    return cardinality;
+  }
+
+  /**
    * Returns the number of bits that are in use by this BitSet
    */
   public get size(): number {
@@ -168,4 +186,13 @@ function toString(words: number[]) {
     out += bitstr(word, first);
   }
   return out;
+}
+
+/**
+ * @returns the number of bits set to one in the provided number
+ */
+function numberOfBitsSetToOne(n: number): number {
+  n -= (n >> 1) & 0x55555555;
+  n = (n & 0x33333333) + ((n >>> 2) & 0x33333333);
+  return (((n + (n >>> 4)) & 0xf0f0f0f) * 0x1010101) >> 24;
 }
