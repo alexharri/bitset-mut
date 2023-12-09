@@ -29,7 +29,7 @@ export class BitSet {
    * @param index index of bit to set
    * @param value 0 or 1
    */
-  public set(index: number, value: number = 1) {
+  public set(index: number, value: number = 1): BitSet {
     const [w, bit] = parseIndex(index);
     this.resize(w + 1);
     if (value) {
@@ -37,29 +37,33 @@ export class BitSet {
     } else {
       this.w[w] &= ~bit;
     }
+    return this;
   }
 
-  public setMultiple(indices: number[], value: number = 1) {
-    indices.forEach((i) => this.set(i));
+  public setMultiple(indices: number[], value: number = 1): BitSet {
+    indices.forEach((i) => this.set(i, value));
+    return this;
   }
 
   /**
    * Flip the bit at the provided index
    */
-  public flip(index: number) {
+  public flip(index: number): BitSet {
     this.set(index, this.has(index) ? 0 : 1);
+    return this;
   }
 
-  public has(index: number) {
+  public has(index: number): boolean {
     const [w, bit] = parseIndex(index);
     if (w >= this.w.length) return false;
     return (this.w[w] & bit) !== 0;
   }
 
-  public resize(length: number) {
+  public resize(length: number): BitSet {
     while (this.w.length < length) {
       this.w.push(0);
     }
+    return this;
   }
 
   *iterWords(): IterableIterator<[index: number, word: number]> {
