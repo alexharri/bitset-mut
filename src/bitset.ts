@@ -173,6 +173,10 @@ export class BitSet {
     }
   }
 
+  public clone() {
+    return new BitSet(this);
+  }
+
   public toString() {
     return toString(this.words);
   }

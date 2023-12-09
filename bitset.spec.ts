@@ -229,4 +229,19 @@ describe("BitSet", () => {
     }
     expect(bitset.cardinality).toEqual(9);
   });
+
+  test("BitSet.clone", () => {
+    const bitset = new BitSet();
+    bitset.setMultiple([0, 5, 10]);
+
+    const clone = bitset.clone();
+
+    expectBitIndices(bitset, [0, 5, 10]);
+    expectBitIndices(clone, [0, 5, 10]);
+
+    clone.flip(5);
+
+    expectBitIndices(bitset, [0, 5, 10]);
+    expectBitIndices(clone, [0, 10]);
+  });
 });
