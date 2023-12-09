@@ -169,6 +169,10 @@ export class BitSet {
     return false;
   }
 
+  public isEmpty(): boolean {
+    return this.words.every((w) => w === 0);
+  }
+
   /**
    * Returns the number of bits that are in use by this BitSet
    */

@@ -291,4 +291,18 @@ describe("BitSet", () => {
       BitSet.fromIndices([100]).intersects(BitSet.fromIndices([1, 100, 200]))
     ).toEqual(true);
   });
+
+  test("BitSet.isEmpty", () => {
+    const bitset = new BitSet();
+    expect(bitset.isEmpty()).toEqual(true);
+
+    bitset.flip(100);
+    expect(bitset.isEmpty()).toEqual(false);
+    bitset.flip(200);
+    expect(bitset.isEmpty()).toEqual(false);
+    bitset.flip(100);
+    expect(bitset.isEmpty()).toEqual(false);
+    bitset.flip(200);
+    expect(bitset.isEmpty()).toEqual(true);
+  });
 });
