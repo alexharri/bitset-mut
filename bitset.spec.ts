@@ -120,5 +120,21 @@ describe("BitSet", () => {
 
     bitset.or(BitSet.fromIndices([0, 1, 100, 738]));
     expectBitIndices(bitset, [0, 1, 3, 5, 6, 12, 100, 500, 738]);
+
+    bitset.or(BitSet.fromIndices([]));
+    expectBitIndices(bitset, [0, 1, 3, 5, 6, 12, 100, 500, 738]);
+  });
+
+  test("BitSet.xor", () => {
+    const bitset = BitSet.fromIndices([1, 3, 6, 12]);
+
+    bitset.xor(BitSet.fromIndices([3, 5, 6]));
+    expectBitIndices(bitset, [1, 5, 12]);
+
+    bitset.xor(BitSet.fromIndices([0, 12, 100, 123]));
+    expectBitIndices(bitset, [0, 1, 5, 100, 123]);
+
+    bitset.xor(BitSet.fromIndices([]));
+    expectBitIndices(bitset, [0, 1, 5, 100, 123]);
   });
 });
