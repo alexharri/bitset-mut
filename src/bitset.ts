@@ -23,16 +23,6 @@ export class BitSet {
     this.w = bits.w.concat();
   }
 
-  *iterWords(): IterableIterator<[index: number, word: number]> {
-    for (let i = 0; i < this.w.length; i++) {
-      yield [i * WORD_LEN, this.w[i]];
-    }
-  }
-
-  public numBits() {
-    return this.w.length * WORD_LEN;
-  }
-
   /**
    * Set bit at index to 0 or 1 (default 1).
    *
@@ -67,6 +57,12 @@ export class BitSet {
   public resize(length: number) {
     while (this.w.length < length) {
       this.w.push(0);
+    }
+  }
+
+  *iterWords(): IterableIterator<[index: number, word: number]> {
+    for (let i = 0; i < this.w.length; i++) {
+      yield [i * WORD_LEN, this.w[i]];
     }
   }
 
