@@ -1,0 +1,27 @@
+{
+  "name": "bitset",
+  "main": "bitset.js",
+  "module": "bitset.esm.js",
+  "types": "bitset.d.ts",
+  "scripts": {
+    "dev": "cd app && npm run dev",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "vitest": "^0.34.6"
+  },
+  "author": {
+    "name": "Alex Harri Jónsson",
+    "email": "alexharri2919@gmail.com",
+    "url": "https://alexharri.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexharri/bitset"
+  },
+  "contributors": [
+    "Alex Harri Jónsson <alexharri2919@gmail.com> (https://alexharri.com)"
+  ]
+}

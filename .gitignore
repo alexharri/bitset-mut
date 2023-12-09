@@ -1,0 +1,8 @@
+# Dependencies
+node_modules/
+
+# TypeScript related
+*.tsbuildinfo
+
+# MacOS files
+.DS_Store
