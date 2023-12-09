@@ -107,6 +107,9 @@ describe("BitSet", () => {
 
     bitset.and(BitSet.fromIndices([1, 3, 750]));
     expectBitIndices(bitset, [3, 750]);
+
+    bitset.and(BitSet.fromIndices([]));
+    expectBitIndices(bitset, []);
   });
 
   test("BitSet.or", () => {

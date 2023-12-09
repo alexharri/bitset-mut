@@ -80,6 +80,9 @@ export class BitSet {
     for (let i = 0; i < len; i++) {
       w0[i] &= w1[i];
     }
+    for (let i = w1.length; i < w0.length; i++) {
+      w0[i] = 0;
+    }
     return this;
   }
 
