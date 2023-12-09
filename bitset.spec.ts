@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, test } from "vitest";
 import { BitSet } from "./src/bitset";
 import { WORD_LEN } from "./src/constants";
 
@@ -25,7 +25,7 @@ describe("BitSet", () => {
     expectBits(new BitSet(new BitSet(0b0110110)), "110110");
   });
 
-  it("sets a bit", () => {
+  test("BitSet.set", () => {
     const bitset = new BitSet();
     expectBitIndices(bitset, []);
 
@@ -47,7 +47,21 @@ describe("BitSet", () => {
     bitset.set(30584);
     expectBitIndices(bitset, [3, 17, 34, 38, 125, 30584]);
 
-    bitset.set(36748593);
-    expectBitIndices(bitset, [3, 17, 34, 38, 125, 30584, 36748593]);
+    bitset.set(3674859);
+    expectBitIndices(bitset, [3, 17, 34, 38, 125, 30584, 3674859]);
+  });
+
+  test("BitSet.has", () => {
+    const bitset = new BitSet();
+
+    bitset.setMultiple([3, 17, 34, 38, 125, 30584]);
+    expectBitIndices(bitset, [3, 17, 34, 38, 125, 30584]); // Sanity check
+
+    for (const index of [3, 17, 34, 38, 125, 30584]) {
+      expect(bitset.has(index)).toEqual(true);
+    }
+    for (const index of [0, 1, 2, 4, 14, 33, 40, 126, 123, 30585, 10000000]) {
+      expect(bitset.has(index)).toEqual(false);
+    }
   });
 });

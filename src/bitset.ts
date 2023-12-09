@@ -1,3 +1,4 @@
+import { bitstr } from "./bitstr";
 import { WORD_LEN, WORD_LOG } from "./constants";
 
 type IBits = BitSet | number;
@@ -39,13 +40,23 @@ export class BitSet {
    * @param value 0 or 1
    */
   public set(index: number, value: number = 1) {
-    const [wi, bi] = parseIndex(index);
-    this.resize(wi + 1);
+    const [w, bit] = parseIndex(index);
+    this.resize(w + 1);
     if (value) {
-      this.w[wi] |= bi;
+      this.w[w] |= bit;
     } else {
-      this.w[wi] &= ~bi;
+      this.w[w] &= ~bit;
     }
+  }
+
+  public setMultiple(indices: number[], value: number = 1) {
+    indices.forEach((i) => this.set(i));
+  }
+
+  public has(index: number) {
+    const [w, bit] = parseIndex(index);
+    if (w >= this.w.length) return false;
+    return (this.w[w] & bit) !== 0;
   }
 
   /**
@@ -64,7 +75,7 @@ export class BitSet {
   }
 }
 
-function parseIndex(index: number): [wordIndex: number, bitIndex: number] {
+function parseIndex(index: number): [wordIndex: number, bit: number] {
   return [index >> WORD_LOG, 1 << index];
 }
 
@@ -87,18 +98,4 @@ function toString(words: number[]) {
       return bitstr(word, first);
     })
     .join("");
-}
-
-function bitstr(word: number, trim: boolean): string {
-  let i = WORD_LEN - 1;
-  if (trim) {
-    while ((word & (1 << i)) === 0) {
-      i--;
-    }
-  }
-  let out = "";
-  while (i >= 0) {
-    out += (word & (1 << i--)) === 0 ? "0" : "1";
-  }
-  return out;
 }
