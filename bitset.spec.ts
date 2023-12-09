@@ -64,4 +64,29 @@ describe("BitSet", () => {
       expect(bitset.has(index)).toEqual(false);
     }
   });
+
+  test("BitSet.flip", () => {
+    const bitset = new BitSet();
+
+    bitset.setMultiple([3, 17, 34, 38, 125]);
+    expectBitIndices(bitset, [3, 17, 34, 38, 125]); // Sanity check
+
+    bitset.flip(17);
+    expectBitIndices(bitset, [3, 34, 38, 125]);
+
+    bitset.flip(17);
+    expectBitIndices(bitset, [3, 17, 34, 38, 125]);
+
+    bitset.flip(34);
+    expectBitIndices(bitset, [3, 17, 38, 125]);
+
+    bitset.flip(125);
+    expectBitIndices(bitset, [3, 17, 38]);
+
+    bitset.flip(19);
+    expectBitIndices(bitset, [3, 17, 19, 38]);
+
+    bitset.flip(534);
+    expectBitIndices(bitset, [3, 17, 19, 38, 534]);
+  });
 });
