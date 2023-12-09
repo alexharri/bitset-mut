@@ -68,25 +68,44 @@ describe("BitSet", () => {
   test("BitSet.flip", () => {
     const bitset = new BitSet();
 
-    bitset.setMultiple([3, 17, 34, 38, 125]);
-    expectBitIndices(bitset, [3, 17, 34, 38, 125]); // Sanity check
+    bitset.setMultiple([0, 3, 17, 34, 38, 125]);
+    expectBitIndices(bitset, [0, 3, 17, 34, 38, 125]); // Sanity check
 
     bitset.flip(17);
-    expectBitIndices(bitset, [3, 34, 38, 125]);
+    expectBitIndices(bitset, [0, 3, 34, 38, 125]);
 
     bitset.flip(17);
-    expectBitIndices(bitset, [3, 17, 34, 38, 125]);
+    expectBitIndices(bitset, [0, 3, 17, 34, 38, 125]);
 
     bitset.flip(34);
-    expectBitIndices(bitset, [3, 17, 38, 125]);
+    expectBitIndices(bitset, [0, 3, 17, 38, 125]);
 
     bitset.flip(125);
-    expectBitIndices(bitset, [3, 17, 38]);
+    expectBitIndices(bitset, [0, 3, 17, 38]);
 
     bitset.flip(19);
+    expectBitIndices(bitset, [0, 3, 17, 19, 38]);
+
+    bitset.flip(0);
     expectBitIndices(bitset, [3, 17, 19, 38]);
 
     bitset.flip(534);
     expectBitIndices(bitset, [3, 17, 19, 38, 534]);
+  });
+
+  test("BitSet.and", () => {
+    const bitset = BitSet.fromIndices([1, 2, 3, 4, 5]);
+
+    bitset.and(BitSet.fromIndices([0, 2, 3, 5, 6, 7]));
+    expectBitIndices(bitset, [2, 3, 5]);
+
+    bitset.and(BitSet.fromIndices([1, 3, 4, 5, 10000]));
+    expectBitIndices(bitset, [3, 5]);
+
+    bitset.add(750);
+    expectBitIndices(bitset, [3, 5, 750]);
+
+    bitset.and(BitSet.fromIndices([1, 3, 750]));
+    expectBitIndices(bitset, [3, 750]);
   });
 });

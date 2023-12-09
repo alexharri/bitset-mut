@@ -23,6 +23,12 @@ export class BitSet {
     this.w = bits.w.concat();
   }
 
+  public static fromIndices(indices: number[]) {
+    const bitset = new BitSet();
+    bitset.setMultiple(indices);
+    return bitset;
+  }
+
   /**
    * Set bit at index to 0 or 1 (default 1)
    *
@@ -38,6 +44,13 @@ export class BitSet {
       this.w[w] &= ~bit;
     }
     return this;
+  }
+
+  /**
+   * Set bit at index to 1 (i.e. add it to the set)
+   */
+  public add(index: number): BitSet {
+    return this.set(index);
   }
 
   public setMultiple(indices: number[], value: number = 1): BitSet {
@@ -57,6 +70,17 @@ export class BitSet {
     const [w, bit] = parseIndex(index);
     if (w >= this.w.length) return false;
     return (this.w[w] & bit) !== 0;
+  }
+
+  public and(bits: IBits): BitSet {
+    const w0 = this.w;
+    const w1 = new BitSet(bits).w;
+    const len = Math.min(w0.length, w1.length);
+
+    for (let i = 0; i < len; i++) {
+      w0[i] &= w1[i];
+    }
+    return this;
   }
 
   public resize(length: number): BitSet {
