@@ -24,7 +24,7 @@ export class BitSet {
   }
 
   /**
-   * Set bit at index to 0 or 1 (default 1).
+   * Set bit at index to 0 or 1 (default 1)
    *
    * @param index index of bit to set
    * @param value 0 or 1
@@ -43,17 +43,19 @@ export class BitSet {
     indices.forEach((i) => this.set(i));
   }
 
+  /**
+   * Flip the bit at the provided index
+   */
+  public flip(index: number) {
+    this.set(index, this.has(index) ? 0 : 1);
+  }
+
   public has(index: number) {
     const [w, bit] = parseIndex(index);
     if (w >= this.w.length) return false;
     return (this.w[w] & bit) !== 0;
   }
 
-  /**
-   * Number of 32 bit
-   *
-   * @param length
-   */
   public resize(length: number) {
     while (this.w.length < length) {
       this.w.push(0);
