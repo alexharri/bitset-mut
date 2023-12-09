@@ -3,17 +3,12 @@ import { WORD_LEN, WORD_LOG } from "./constants";
 
 type IBits = BitSet | number;
 
-const ALL_ZEROES_STR = Array(32).fill("0").join("");
-const ALL_ONES_STR = Array(32).fill("1").join("");
-
-const ALL_ONES_NUM = 2 ** 32 - 1;
-
 export class BitSet {
   private w: number[];
 
   constructor(bits?: IBits) {
     if (typeof bits === "number") {
-      this.w = [bits & ALL_ONES_NUM];
+      this.w = [bits | 0];
       return;
     }
     if (!bits) {
@@ -63,6 +58,14 @@ export class BitSet {
    */
   public flip(index: number): BitSet {
     this.set(index, this.has(index) ? 0 : 1);
+    return this;
+  }
+
+  public invert(): BitSet {
+    const w = this.w;
+    for (let i = 0; i < w.length; i++) {
+      w[i] = ~w[i];
+    }
     return this;
   }
 
@@ -135,20 +138,12 @@ function parseIndex(index: number): [wordIndex: number, bit: number] {
 function toString(words: number[]) {
   const firstNonZeroWord = words.findIndex((word) => word !== 0);
   if (firstNonZeroWord === -1) return "0";
-  return words
-    .slice(firstNonZeroWord)
-    .map((word, i) => {
-      const first = i === 0;
 
-      if (!first) {
-        if (word === 0) {
-          return ALL_ZEROES_STR;
-        } else if (word === ALL_ONES_NUM) {
-          return ALL_ONES_STR;
-        }
-      }
-
-      return bitstr(word, first);
-    })
-    .join("");
+  let out = "";
+  for (let i = words.length - 1; i >= 0; i--) {
+    const word = words[i];
+    const first = i === words.length - 1;
+    out += bitstr(word, first);
+  }
+  return out;
 }

@@ -140,4 +140,34 @@ describe("BitSet", () => {
     bitset.xor(BitSet.fromIndices([]));
     expectBitIndices(bitset, [0, 1, 5, 100, 123]);
   });
+
+  test("BitSet.invert", () => {
+    const bitset = new BitSet();
+
+    expectBits(bitset, "0");
+    bitset.invert();
+    expectBits(bitset, "0");
+
+    bitset.set(0);
+
+    expectBits(bitset, "1");
+    bitset.invert();
+    expectBits(bitset, "11111111111111111111111111111110");
+
+    bitset.flip(13);
+    bitset.flip(7);
+
+    expectBits(bitset, "11111111111111111101111101111110");
+    bitset.invert();
+    expectBits(bitset, "10000010000001");
+
+    bitset.flip(50);
+
+    expectBits(bitset, "100000000000000000000000000000000000010000010000001");
+    bitset.invert();
+    expectBits(
+      bitset,
+      "1111111111111011111111111111111111111111111111111101111101111110"
+    );
+  });
 });
