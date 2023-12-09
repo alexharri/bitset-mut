@@ -113,6 +113,28 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Sets all bits to zero, and sets the size and length of this BitSet to zero
+   */
+  public clear(): BitSet {
+    this.w.length = 0;
+    return this;
+  }
+
+  /**
+   * Returns the number of bits that are in use by this BitSet
+   */
+  public get size(): number {
+    return this.w.length * WORD_LEN;
+  }
+
+  /**
+   * Returns the number of integers (32 bit) that are in use by this BitSet
+   */
+  public get length(): number {
+    return this.w.length;
+  }
+
   public resize(length: number): BitSet {
     while (this.w.length < length) {
       this.w.push(0);

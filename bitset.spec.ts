@@ -170,4 +170,18 @@ describe("BitSet", () => {
       "1111111111111011111111111111111111111111111111111101111101111110"
     );
   });
+
+  test("BitSet.clear", () => {
+    const bitset = BitSet.fromIndices([1, 35, 125]);
+
+    expectBitIndices(bitset, [1, 35, 125]);
+    expect(bitset.size).toEqual(128);
+    expect(bitset.length).toEqual(4);
+
+    bitset.clear();
+
+    expectBitIndices(bitset, []);
+    expect(bitset.size).toEqual(0);
+    expect(bitset.length).toEqual(0);
+  });
 });
