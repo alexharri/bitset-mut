@@ -270,4 +270,25 @@ describe("BitSet", () => {
     expect(a.length !== b.length).toEqual(true);
     expect(a.equals(b)).toEqual(true);
   });
+
+  test("BitSet.intersects", () => {
+    expect(
+      BitSet.fromIndices([1, 2, 3]).intersects(BitSet.fromIndices([3, 4, 5]))
+    ).toEqual(true);
+    expect(
+      BitSet.fromIndices([1, 2]).intersects(BitSet.fromIndices([3, 4, 5]))
+    ).toEqual(false);
+    expect(
+      BitSet.fromIndices([1, 2]).intersects(BitSet.fromIndices([32, 33]))
+    ).toEqual(false);
+    expect(
+      BitSet.fromIndices([32]).intersects(BitSet.fromIndices([0, 100]))
+    ).toEqual(false);
+    expect(
+      BitSet.fromIndices([1, 100, 200]).intersects(BitSet.fromIndices([100]))
+    ).toEqual(true);
+    expect(
+      BitSet.fromIndices([100]).intersects(BitSet.fromIndices([1, 100, 200]))
+    ).toEqual(true);
+  });
 });

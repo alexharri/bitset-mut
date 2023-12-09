@@ -159,6 +159,16 @@ export class BitSet {
     return true;
   }
 
+  public intersects(bits: IBits): boolean {
+    let w0 = this.words;
+    let w1 = toWords(bits);
+    const len = Math.min(w0.length, w0.length);
+    for (let i = 0; i < len; i++) {
+      if ((w0[i] & w1[i]) !== 0) return true;
+    }
+    return false;
+  }
+
   /**
    * Returns the number of bits that are in use by this BitSet
    */
