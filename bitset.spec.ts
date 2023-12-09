@@ -112,6 +112,28 @@ describe("BitSet", () => {
     expectBitIndices(bitset, []);
   });
 
+  test("BitSet.andNot", () => {
+    const bitset = BitSet.fromIndices([1, 2, 3, 4, 5]);
+
+    bitset.andNot(BitSet.fromIndices([0, 6, 7, 128]));
+    expectBitIndices(bitset, [1, 2, 3, 4, 5]);
+
+    bitset.andNot(BitSet.fromIndices([2, 4]));
+    expectBitIndices(bitset, [1, 3, 5]);
+
+    bitset.set(50);
+    expectBitIndices(bitset, [1, 3, 5, 50]);
+
+    bitset.andNot(0b1000);
+    expectBitIndices(bitset, [1, 5, 50]);
+
+    bitset.andNot(BitSet.fromIndices([58]));
+    expectBitIndices(bitset, [1, 5, 50]);
+
+    bitset.andNot(BitSet.fromIndices([50]));
+    expectBitIndices(bitset, [1, 5]);
+  });
+
   test("BitSet.or", () => {
     const bitset = BitSet.fromIndices([1, 3, 6, 12]);
 

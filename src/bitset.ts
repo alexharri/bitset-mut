@@ -4,18 +4,14 @@ import { WORD_LEN, WORD_LOG } from "./constants";
 type IBits = BitSet | number;
 
 export class BitSet {
-  private w: number[];
+  public words: number[];
 
   constructor(bits?: IBits) {
-    if (typeof bits === "number") {
-      this.w = [bits | 0];
+    if (bits == null) {
+      this.words = [];
       return;
     }
-    if (!bits) {
-      this.w = [];
-      return;
-    }
-    this.w = bits.w.concat();
+    this.words = toWords(bits, true);
   }
 
   public static fromIndices(indices: number[]) {
@@ -34,9 +30,9 @@ export class BitSet {
     const [w, bit] = parseIndex(index);
     this.resize(w + 1);
     if (value) {
-      this.w[w] |= bit;
+      this.words[w] |= bit;
     } else {
-      this.w[w] &= ~bit;
+      this.words[w] &= ~bit;
     }
     return this;
   }
@@ -69,7 +65,7 @@ export class BitSet {
   }
 
   public invert(): BitSet {
-    const w = this.w;
+    const w = this.words;
     for (let i = 0; i < w.length; i++) {
       w[i] = ~w[i];
     }
@@ -78,13 +74,13 @@ export class BitSet {
 
   public has(index: number): boolean {
     const [w, bit] = parseIndex(index);
-    if (w >= this.w.length) return false;
-    return (this.w[w] & bit) !== 0;
+    if (w >= this.words.length) return false;
+    return (this.words[w] & bit) !== 0;
   }
 
   public and(bits: IBits): BitSet {
-    const w0 = this.w;
-    const w1 = new BitSet(bits).w;
+    const w0 = this.words;
+    const w1 = toWords(bits);
     const len = Math.min(w0.length, w1.length);
 
     for (let i = 0; i < len; i++) {
@@ -96,26 +92,37 @@ export class BitSet {
     return this;
   }
 
+  public andNot(bits: IBits): BitSet {
+    const w0 = this.words;
+    const w1 = toWords(bits);
+    const len = Math.min(w0.length, w1.length);
+
+    for (let i = 0; i < len; i++) {
+      w0[i] &= ~w1[i];
+    }
+    return this;
+  }
+
   public or(bits: IBits): BitSet {
-    const w = new BitSet(bits).w;
+    const w = toWords(bits);
 
     // Make this bitset _at least_ as long as the BitSet being passed
     this.resize(w.length);
 
     for (let i = 0; i < w.length; i++) {
-      this.w[i] |= w[i];
+      this.words[i] |= w[i];
     }
     return this;
   }
 
   public xor(bits: IBits): BitSet {
-    const w = new BitSet(bits).w;
+    const w = toWords(bits);
 
     // Make this bitset _at least_ as long as the BitSet being passed
     this.resize(w.length);
 
     for (let i = 0; i < w.length; i++) {
-      this.w[i] ^= w[i];
+      this.words[i] ^= w[i];
     }
     return this;
   }
@@ -124,7 +131,7 @@ export class BitSet {
    * Sets all bits to zero, and sets the size and length of this BitSet to zero
    */
   public clear(): BitSet {
-    this.w.length = 0;
+    this.words.length = 0;
     return this;
   }
 
@@ -133,7 +140,7 @@ export class BitSet {
    */
   public get cardinality(): number {
     let cardinality = 0;
-    for (const w of this.w) {
+    for (const w of this.words) {
       cardinality += numberOfBitsSetToOne(w);
     }
     return cardinality;
@@ -143,32 +150,39 @@ export class BitSet {
    * Returns the number of bits that are in use by this BitSet
    */
   public get size(): number {
-    return this.w.length * WORD_LEN;
+    return this.words.length * WORD_LEN;
   }
 
   /**
    * Returns the number of integers (32 bit) that are in use by this BitSet
    */
   public get length(): number {
-    return this.w.length;
+    return this.words.length;
   }
 
   public resize(length: number): BitSet {
-    while (this.w.length < length) {
-      this.w.push(0);
+    while (this.words.length < length) {
+      this.words.push(0);
     }
     return this;
   }
 
   *iterWords(): IterableIterator<[index: number, word: number]> {
-    for (let i = 0; i < this.w.length; i++) {
-      yield [i * WORD_LEN, this.w[i]];
+    for (let i = 0; i < this.words.length; i++) {
+      yield [i * WORD_LEN, this.words[i]];
     }
   }
 
   public toString() {
-    return toString(this.w);
+    return toString(this.words);
   }
+}
+
+function toWords(bits: IBits, clone = false) {
+  if (typeof bits === "number") {
+    return [bits | 0];
+  }
+  return clone ? bits.words.concat() : bits.words;
 }
 
 function parseIndex(index: number): [wordIndex: number, bit: number] {
