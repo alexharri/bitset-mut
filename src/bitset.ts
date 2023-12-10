@@ -9,7 +9,7 @@ import {
   WORD_LOG,
 } from "./constants";
 
-type IBits = BitSet | string | number;
+type IBits = BitSet | string | number | number[];
 
 export class BitSet {
   public words: number[];
@@ -322,7 +322,8 @@ function toWords(bits: IBits, clone = false): number[] {
   if (typeof bits === "string") {
     return bitStringToWords(bits);
   }
-  return clone ? bits.words.concat() : bits.words;
+  const arr = Array.isArray(bits) ? bits : bits.words;
+  return clone ? arr.concat() : arr;
 }
 
 function bitStringToWords(s: string): number[] {

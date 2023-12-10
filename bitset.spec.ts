@@ -44,6 +44,10 @@ describe("BitSet", () => {
       ),
       "100100000000000000000000000000001000"
     );
+    expectBits(
+      new BitSet([0b0110011, 0b100000000001]),
+      "10000000000100000000000000000000000000110011"
+    );
   });
 
   test("strings with characters other than '0' and '1' are rejected", () => {
