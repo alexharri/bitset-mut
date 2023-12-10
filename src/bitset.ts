@@ -27,13 +27,7 @@ export class BitSet {
    * @param value 0 or 1
    */
   public set(index: number, value: number | boolean = 1): BitSet {
-    const [w, bit] = parseIndex(index);
-    this.resize(w + 1);
-    if (value) {
-      this.words[w] |= bit;
-    } else {
-      this.words[w] &= ~bit;
-    }
+    set(this.words, index, value);
     return this;
   }
 
@@ -164,8 +158,17 @@ export class BitSet {
   /**
    * Sets all bits to zero, and sets the size and length of this BitSet to zero
    */
-  public clear(): BitSet {
-    this.words.length = 0;
+  public clear(): BitSet;
+  public clear(index: number): BitSet;
+  public clear(from: number, to: number): BitSet;
+  public clear(from?: number, to?: number): BitSet {
+    if (typeof to === "number") {
+      this.setRange(from!, to, 0);
+    } else if (typeof from === "number") {
+      this.set(from, 0);
+    } else {
+      this.words.length = 0;
+    }
     return this;
   }
 
@@ -222,9 +225,7 @@ export class BitSet {
   }
 
   public resize(length: number): BitSet {
-    while (this.words.length < length) {
-      this.words.push(0);
-    }
+    resize(this.words, length);
     return this;
   }
 
@@ -240,6 +241,22 @@ export class BitSet {
 
   public toString() {
     return toString(this.words);
+  }
+}
+
+function set(words: number[], index: number, value: number | boolean): void {
+  const [w, bit] = parseIndex(index);
+  resize(words, w + 1);
+  if (value) {
+    words[w] |= bit;
+  } else {
+    words[w] &= ~bit;
+  }
+}
+
+function resize(words: number[], length: number) {
+  while (words.length < length) {
+    words.push(0);
   }
 }
 

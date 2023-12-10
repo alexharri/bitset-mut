@@ -18,6 +18,14 @@ function expectBitIndices(bitset: BitSet, expectedIndices: number[]) {
   expect(actualIndices).toEqual(expectedIndices);
 }
 
+function range(from: number, to: number) {
+  const arr: number[] = [];
+  for (let i = from; i <= to; i++) {
+    arr.push(i);
+  }
+  return arr;
+}
+
 describe("BitSet", () => {
   test("creating a new bitset", () => {
     expectBits(new BitSet(), "0");
@@ -236,6 +244,19 @@ describe("BitSet", () => {
     expectBitIndices(bitset, []);
     expect(bitset.size).toEqual(0);
     expect(bitset.length).toEqual(0);
+
+    bitset.setRange(10, 20);
+
+    expectBitIndices(bitset, range(10, 20));
+
+    bitset.clear(14, 19);
+    expectBitIndices(bitset, [...range(10, 13), 20]);
+
+    bitset.clear(12);
+    expectBitIndices(bitset, [10, 11, 13, 20]);
+
+    bitset.clear();
+    expectBitIndices(bitset, []);
   });
 
   test("BitSet.cardinality", () => {
@@ -340,14 +361,6 @@ describe("BitSet", () => {
   test("BitSet.setRange", () => {
     const bitset = new BitSet();
 
-    function range(from: number, to: number) {
-      const arr: number[] = [];
-      for (let i = from; i <= to; i++) {
-        arr.push(i);
-      }
-      return arr;
-    }
-
     bitset.setRange(5, 16);
     expectBitIndices(bitset, range(5, 16));
 
@@ -388,6 +401,16 @@ describe("BitSet", () => {
 
     bitset.setRange(55, 70, false);
     expectBitIndices(bitset, [
+      ...range(5, 9),
+      ...range(15, 16),
+      ...range(29, 37),
+      ...range(50, 54),
+      ...range(130, 200),
+    ]);
+
+    bitset.setRange(1, 1);
+    expectBitIndices(bitset, [
+      1,
       ...range(5, 9),
       ...range(15, 16),
       ...range(29, 37),
