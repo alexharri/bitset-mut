@@ -68,6 +68,18 @@ describe("BitSet", () => {
 
     bitset.set(3674859);
     expectBitIndices(bitset, [3, 17, 34, 38, 125, 30584, 3674859]);
+
+    bitset.set(125, 0);
+    expectBitIndices(bitset, [3, 17, 34, 38, 30584, 3674859]);
+
+    bitset.set(17, 0);
+    expectBitIndices(bitset, [3, 34, 38, 30584, 3674859]);
+
+    bitset.set(38, 1); // No-op
+    expectBitIndices(bitset, [3, 34, 38, 30584, 3674859]);
+
+    bitset.set(54, 0); // No-op
+    expectBitIndices(bitset, [3, 34, 38, 30584, 3674859]);
   });
 
   test("BitSet.has", () => {
@@ -323,5 +335,64 @@ describe("BitSet", () => {
     expect(bitset.isEmpty()).toEqual(false);
     bitset.flip(200);
     expect(bitset.isEmpty()).toEqual(true);
+  });
+
+  test("BitSet.setRange", () => {
+    const bitset = new BitSet();
+
+    function range(from: number, to: number) {
+      const arr: number[] = [];
+      for (let i = from; i <= to; i++) {
+        arr.push(i);
+      }
+      return arr;
+    }
+
+    bitset.setRange(5, 16);
+    expectBitIndices(bitset, range(5, 16));
+
+    bitset.setRange(10, 14, 0);
+    expectBitIndices(bitset, [...range(5, 9), ...range(15, 16)]);
+
+    bitset.setRange(29, 40);
+    expectBitIndices(bitset, [
+      ...range(5, 9),
+      ...range(15, 16),
+      ...range(29, 40),
+    ]);
+
+    bitset.setRange(100, 200);
+    expectBitIndices(bitset, [
+      ...range(5, 9),
+      ...range(15, 16),
+      ...range(29, 40),
+      ...range(100, 200),
+    ]);
+
+    bitset.setRange(38, 129, 0);
+    expectBitIndices(bitset, [
+      ...range(5, 9),
+      ...range(15, 16),
+      ...range(29, 37),
+      ...range(130, 200),
+    ]);
+
+    bitset.setRange(60, 50, true);
+    expectBitIndices(bitset, [
+      ...range(5, 9),
+      ...range(15, 16),
+      ...range(29, 37),
+      ...range(50, 60),
+      ...range(130, 200),
+    ]);
+
+    bitset.setRange(55, 70, false);
+    expectBitIndices(bitset, [
+      ...range(5, 9),
+      ...range(15, 16),
+      ...range(29, 37),
+      ...range(50, 54),
+      ...range(130, 200),
+    ]);
   });
 });

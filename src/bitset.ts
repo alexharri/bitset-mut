@@ -1,5 +1,5 @@
 import { bitstr } from "./bitstr";
-import { WORD_LEN, WORD_LOG } from "./constants";
+import { ALL_ONES_NUM, BIT_INDEX_MASK, WORD_LEN, WORD_LOG } from "./constants";
 
 type IBits = BitSet | string | number;
 
@@ -26,7 +26,7 @@ export class BitSet {
    * @param index index of bit to set
    * @param value 0 or 1
    */
-  public set(index: number, value: number = 1): BitSet {
+  public set(index: number, value: number | boolean = 1): BitSet {
     const [w, bit] = parseIndex(index);
     this.resize(w + 1);
     if (value) {
@@ -34,6 +34,40 @@ export class BitSet {
     } else {
       this.words[w] &= ~bit;
     }
+    return this;
+  }
+
+  public setRange(
+    from: number,
+    to: number,
+    value: number | boolean = 1
+  ): BitSet {
+    if (from > to) [from, to] = [to, from];
+
+    const w0 = from >> WORD_LOG;
+    const w1 = to >> WORD_LOG;
+    this.resize(w1 + 1);
+
+    for (let w = w0; w <= w1; w++) {
+      if (w > w0 && w < w1) {
+        this.words[w] = value ? ALL_ONES_NUM : 0;
+        continue;
+      }
+
+      let word = this.words[w];
+      const start = w === w0 ? from & BIT_INDEX_MASK : 0;
+      const end = w === w1 ? to & BIT_INDEX_MASK : WORD_LEN - 1;
+
+      for (let b = start; b <= end; b++) {
+        if (value) {
+          word |= 1 << b;
+        } else {
+          word &= ~(1 << b);
+        }
+      }
+      this.words[w] = word;
+    }
+
     return this;
   }
 
