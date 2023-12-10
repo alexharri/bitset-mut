@@ -134,6 +134,20 @@ export class BitSet {
     return this;
   }
 
+  public slice(from?: number, to?: number): BitSet {
+    if (typeof to === "number" && from == null) from = 0;
+    if (from == null) return this.clone();
+    if (to == null) to = this.size;
+    if (from > to) [from, to] = [to, from];
+
+    const bitset = new BitSet();
+    bitset.size = to - from; // Pre-allocate
+
+    for (const bit of this.iterRange(from, to)) bitset.set(bit - from);
+
+    return bitset;
+  }
+
   public invert(): BitSet {
     const w = this.words;
     for (let i = 0; i < w.length; i++) {
@@ -259,6 +273,15 @@ export class BitSet {
     return this.words.length * WORD_LEN;
   }
 
+  public set size(value: number) {
+    const length = Math.ceil(value / WORD_LEN);
+    if (this.words.length > length) {
+      this.words.length = length;
+      return;
+    }
+    resize(this.words, length);
+  }
+
   /**
    * Returns the number of integers (32 bit) that are in use by this BitSet
    */
@@ -280,7 +303,34 @@ export class BitSet {
     }
   }
 
-  *[Symbol.iterator]() {
+  *iterRange(from: number, to: number): IterableIterator<number> {
+    if (from > to) [from, to] = [to, from];
+    const w0 = from >> WORD_LOG;
+    const w1 = to >> WORD_LOG;
+    for (let i = w0; i <= w1; i++) {
+      const w = this.words[i];
+      if (w === 0) continue;
+      const wordBase = i << WORD_LOG;
+
+      const start = i === w0 ? from & BIT_INDEX_MASK : 0;
+      const end = i === w1 ? to & BIT_INDEX_MASK : WORD_LEN;
+
+      if (start < WORD_LEN_HALF && (w & WORD_FIRST_HALF_MASK) !== 0) {
+        const firstHalfEnd = Math.min(WORD_LEN_HALF, end);
+        for (let b = start; b < firstHalfEnd; b++) {
+          if ((w & (1 << b)) != 0) yield wordBase + b;
+        }
+      }
+      if (end > WORD_LEN_HALF && (w & WORD_LATTER_HALF_MASK) !== 0) {
+        const latterHalfStart = Math.max(WORD_LEN_HALF, start);
+        for (let b = latterHalfStart; b < end; b++) {
+          if ((w & (1 << b)) != 0) yield wordBase + b;
+        }
+      }
+    }
+  }
+
+  *[Symbol.iterator](): IterableIterator<number> {
     for (let i = 0; i < this.words.length; i++) {
       const w = this.words[i];
       if (w === 0) continue;
