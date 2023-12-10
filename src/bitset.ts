@@ -1,7 +1,7 @@
 import { bitstr } from "./bitstr";
 import { WORD_LEN, WORD_LOG } from "./constants";
 
-type IBits = BitSet | number;
+type IBits = BitSet | string | number;
 
 export class BitSet {
   public words: number[];
@@ -209,11 +209,37 @@ export class BitSet {
   }
 }
 
-function toWords(bits: IBits, clone = false) {
+function toWords(bits: IBits, clone = false): number[] {
   if (typeof bits === "number") {
     return [bits | 0];
   }
+  if (typeof bits === "string") {
+    return bitStringToWords(bits);
+  }
   return clone ? bits.words.concat() : bits.words;
+}
+
+function bitStringToWords(s: string): number[] {
+  // Check for invalid input
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] !== "0" && s[i] !== "1") {
+      throw new Error(`Unexpected character '${s[i]}'. Expected '0' or '1'`);
+    }
+  }
+
+  // Trim leading zeroes
+  const firstOne = s.indexOf("1");
+  if (firstOne === -1) return [];
+  if (firstOne > 0) s = s.slice(firstOne);
+
+  const out: number[] = [];
+  for (let i = 0; i * WORD_LEN < s.length; i++) {
+    const end = s.length - i * WORD_LEN;
+    const start = end - WORD_LEN;
+    const si = s.slice(Math.max(0, start), end);
+    out.push(parseInt(si, 2));
+  }
+  return out;
 }
 
 function parseIndex(index: number): [wordIndex: number, bit: number] {

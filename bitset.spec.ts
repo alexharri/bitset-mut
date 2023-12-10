@@ -23,6 +23,25 @@ describe("BitSet", () => {
     expectBits(new BitSet(), "0");
     expectBits(new BitSet(0b0110110), "110110");
     expectBits(new BitSet(new BitSet(0b0110110)), "110110");
+    expectBits(new BitSet(""), "0");
+    expectBits(
+      new BitSet("0000000000000000000000000000000000000000000000000000000"),
+      "0"
+    );
+    expectBits(new BitSet("00000001"), "1");
+    expectBits(new BitSet("0110011"), "110011");
+    expectBits(
+      new BitSet(
+        "0000000000000000000000000000100100000000000000000000000000001000"
+      ),
+      "100100000000000000000000000000001000"
+    );
+  });
+
+  test("strings with characters other than '0' and '1' are rejected", () => {
+    expect(() => new BitSet("0b01")).toThrow(
+      "Unexpected character 'b'. Expected '0' or '1'"
+    );
   });
 
   test("BitSet.set", () => {
