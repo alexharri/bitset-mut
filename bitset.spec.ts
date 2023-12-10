@@ -451,4 +451,19 @@ describe("BitSet", () => {
       ...range(101, 110),
     ]);
   });
+
+  test("iterate over BitSet", () => {
+    const bitset = new BitSet();
+
+    const bits = [1, 2, 3, 4, 8, 9, 10, 34, 80, 1111];
+    for (const n of bits) {
+      bitset.set(n);
+    }
+
+    const yieldedBits: number[] = [];
+    for (const bit of bitset) {
+      yieldedBits.push(bit);
+    }
+    expect(yieldedBits).toEqual(bits);
+  });
 });

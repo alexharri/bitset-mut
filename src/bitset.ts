@@ -1,5 +1,13 @@
 import { bitstr } from "./bitstr";
-import { ALL_ONES_NUM, BIT_INDEX_MASK, WORD_LEN, WORD_LOG } from "./constants";
+import {
+  ALL_ONES_NUM,
+  BIT_INDEX_MASK,
+  WORD_FIRST_HALF_MASK,
+  WORD_LATTER_HALF_MASK,
+  WORD_LEN,
+  WORD_LEN_HALF,
+  WORD_LOG,
+} from "./constants";
 
 type IBits = BitSet | string | number;
 
@@ -258,18 +266,36 @@ export class BitSet {
     return this.words.length;
   }
 
-  *iterWords(): IterableIterator<[index: number, word: number]> {
-    for (let i = 0; i < this.words.length; i++) {
-      yield [i * WORD_LEN, this.words[i]];
-    }
-  }
-
   public clone(): BitSet {
     return new BitSet(this);
   }
 
   public toString() {
     return toString(this.words);
+  }
+
+  *iterWords(): IterableIterator<[index: number, word: number]> {
+    for (let i = 0; i < this.words.length; i++) {
+      yield [i * WORD_LEN, this.words[i]];
+    }
+  }
+
+  *[Symbol.iterator]() {
+    for (let i = 0; i < this.words.length; i++) {
+      const w = this.words[i];
+      if (w === 0) continue;
+      const wordBase = i << WORD_LOG;
+      if ((w & WORD_FIRST_HALF_MASK) !== 0) {
+        for (let b = 0; b < WORD_LEN_HALF; b++) {
+          if ((w & (1 << b)) != 0) yield wordBase + b;
+        }
+      }
+      if ((w & WORD_LATTER_HALF_MASK) !== 0) {
+        for (let b = WORD_LEN_HALF; b < WORD_LEN; b++) {
+          if ((w & (1 << b)) != 0) yield wordBase + b;
+        }
+      }
+    }
   }
 }
 
