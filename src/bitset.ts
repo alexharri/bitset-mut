@@ -40,7 +40,7 @@ export class BitSet {
 
     const w0 = from >> WORD_LOG;
     const w1 = to >> WORD_LOG;
-    this.resize(w1 + 1);
+    resize(this.words, w1 + 1);
 
     for (let w = w0; w <= w1; w++) {
       if (w > w0 && w < w1) {
@@ -135,7 +135,7 @@ export class BitSet {
     const w = toWords(bits);
 
     // Make this bitset _at least_ as long as the BitSet being passed
-    this.resize(w.length);
+    resize(this.words, w.length);
 
     for (let i = 0; i < w.length; i++) {
       this.words[i] |= w[i];
@@ -147,7 +147,7 @@ export class BitSet {
     const w = toWords(bits);
 
     // Make this bitset _at least_ as long as the BitSet being passed
-    this.resize(w.length);
+    resize(this.words, w.length);
 
     for (let i = 0; i < w.length; i++) {
       this.words[i] ^= w[i];
@@ -222,11 +222,6 @@ export class BitSet {
    */
   public get length(): number {
     return this.words.length;
-  }
-
-  public resize(length: number): BitSet {
-    resize(this.words, length);
-    return this;
   }
 
   *iterWords(): IterableIterator<[index: number, word: number]> {
