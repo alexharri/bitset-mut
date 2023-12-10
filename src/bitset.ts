@@ -87,8 +87,42 @@ export class BitSet {
   /**
    * Flip the bit at the provided index
    */
-  public flip(index: number): BitSet {
-    this.set(index, this.has(index) ? 0 : 1);
+  public flip(index: number): BitSet;
+  public flip(from: number, to: number): BitSet;
+  public flip(indexOrFrom: number, to?: number): BitSet {
+    if (typeof to === "number") return this.flipRange(indexOrFrom, to);
+    this.set(indexOrFrom, this.has(indexOrFrom) ? 0 : 1);
+    return this;
+  }
+
+  public flipRange(from: number, to: number): BitSet {
+    if (from > to) [from, to] = [to, from];
+
+    const w0 = from >> WORD_LOG;
+    const w1 = to >> WORD_LOG;
+    resize(this.words, w1 + 1);
+
+    for (let w = w0; w <= w1; w++) {
+      let word = this.words[w];
+
+      if (w > w0 && w < w1 && (word === 0 || word === ALL_ONES_NUM)) {
+        this.words[w] = word === 0 ? ALL_ONES_NUM : 0;
+        continue;
+      }
+
+      const start = w === w0 ? from & BIT_INDEX_MASK : 0;
+      const end = w === w1 ? to & BIT_INDEX_MASK : WORD_LEN - 1;
+
+      for (let b = start; b <= end; b++) {
+        if ((word & (1 << b)) === 0) {
+          word |= 1 << b;
+        } else {
+          word &= ~(1 << b);
+        }
+      }
+      this.words[w] = word;
+    }
+
     return this;
   }
 

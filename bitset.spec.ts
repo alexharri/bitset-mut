@@ -418,4 +418,37 @@ describe("BitSet", () => {
       ...range(130, 200),
     ]);
   });
+
+  test("BitSet.flipRange", () => {
+    const bitset = new BitSet();
+
+    bitset.flipRange(50, 100);
+    expectBitIndices(bitset, range(50, 100));
+
+    bitset.flipRange(45, 72);
+    expectBitIndices(bitset, [...range(45, 49), ...range(73, 100)]);
+
+    bitset.flipRange(10, 7);
+    expectBitIndices(bitset, [
+      ...range(7, 10),
+      ...range(45, 49),
+      ...range(73, 100),
+    ]);
+
+    bitset.flipRange(10, 10);
+    expectBitIndices(bitset, [
+      ...range(7, 9),
+      ...range(45, 49),
+      ...range(73, 100),
+    ]);
+
+    // Alternative syntax for flipRange
+    bitset.flip(90, 110);
+    expectBitIndices(bitset, [
+      ...range(7, 9),
+      ...range(45, 49),
+      ...range(73, 89),
+      ...range(101, 110),
+    ]);
+  });
 });
