@@ -35,7 +35,14 @@ export class BitSet {
    * @param value 0 or 1
    */
   public set(index: number, value: number | boolean = 1): BitSet {
-    set(this.words, index, value);
+    const w = index >> WORD_LOG;
+    const bit = 1 << index;
+    resize(this.words, w);
+    if (value) {
+      this.words[w] |= bit;
+    } else {
+      this.words[w] &= ~bit;
+    }
     return this;
   }
 
@@ -346,16 +353,6 @@ export class BitSet {
         }
       }
     }
-  }
-}
-
-function set(words: number[], index: number, value: number | boolean): void {
-  const [w, bit] = parseIndex(index);
-  resize(words, w + 1);
-  if (value) {
-    words[w] |= bit;
-  } else {
-    words[w] &= ~bit;
   }
 }
 

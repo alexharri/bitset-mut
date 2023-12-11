@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "cd app && npm run dev",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate-benchmark:set": "ts-node -T benchmarks/set/generate",
+    "benchmark:set": "ts-node -T benchmarks/set/run"
   },
   "devDependencies": {
+    "bitset": "^5.1.1",
     "ts-node": "^10.9.1",
     "vitest": "^0.34.6"
   },
