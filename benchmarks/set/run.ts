@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { BitSet } from "../../src/bitset";
 import BitSet2 from "bitset";
+import { profile } from "../profile";
 
 let arrs = JSON.parse(
   fs.readFileSync(
@@ -9,14 +10,6 @@ let arrs = JSON.parse(
     "utf-8"
   )
 ) as number[][];
-
-function profile(run: () => void, callback: (timeMs: number) => void) {
-  const start = performance.now();
-  run();
-  const end = performance.now();
-  const timeMs = end - start;
-  callback(timeMs);
-}
 
 console.log("Running '50-times-100k-indices-from-0-to-10m' benchmark");
 profile(
