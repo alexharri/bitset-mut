@@ -8,9 +8,11 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "generate-benchmark:set": "ts-node -T benchmarks/set/generate",
-    "generate-benchmark:setRange": "ts-node -T benchmarks/setRange/generate",
     "benchmark:set": "ts-node -T benchmarks/set/run",
-    "benchmark:setRange": "ts-node -T benchmarks/setRange/run"
+    "generate-benchmark:setRange": "ts-node -T benchmarks/setRange/generate",
+    "benchmark:setRange": "ts-node -T benchmarks/setRange/run",
+    "generate-benchmark:and": "ts-node -T benchmarks/and/generate",
+    "benchmark:and": "ts-node -T benchmarks/and/run"
   },
   "devDependencies": {
     "bitset": "^5.1.1",

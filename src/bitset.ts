@@ -363,14 +363,19 @@ function resize(words: number[], length: number) {
 }
 
 function toWords(bits: IBits, clone = false): number[] {
+  if (bits instanceof BitSet) {
+    return clone ? bits.words.concat() : bits.words;
+  }
+  if (Array.isArray(bits)) {
+    return clone ? bits.concat() : bits;
+  }
   if (typeof bits === "number") {
     return [bits | 0];
   }
   if (typeof bits === "string") {
     return bitStringToWords(bits);
   }
-  const arr = Array.isArray(bits) ? bits : bits.words;
-  return clone ? arr.concat() : arr;
+  throw new Error(`Failed to parse bits ${bits}`);
 }
 
 function bitStringToWords(s: string): number[] {
