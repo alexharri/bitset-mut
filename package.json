@@ -14,7 +14,9 @@
     "generate-benchmark:and": "ts-node -T benchmarks/and/generate",
     "benchmark:and": "ts-node -T benchmarks/and/run",
     "generate-benchmark:or": "ts-node -T benchmarks/or/generate",
-    "benchmark:or": "ts-node -T benchmarks/or/run"
+    "benchmark:or": "ts-node -T benchmarks/or/run",
+    "generate-benchmark:andNot": "ts-node -T benchmarks/andNot/generate",
+    "benchmark:andNot": "ts-node -T benchmarks/andNot/run"
   },
   "devDependencies": {
     "bitset": "^5.1.1",
