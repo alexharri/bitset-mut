@@ -342,22 +342,31 @@ export class BitSet {
     }
   }
 
-  *[Symbol.iterator](): IterableIterator<number> {
-    for (let i = 0; i < this.words.length; i++) {
-      const w = this.words[i];
-      if (w === 0) continue;
-      const wordBase = i << WORD_LOG;
-      if ((w & WORD_FIRST_HALF_MASK) !== 0) {
-        for (let b = 0; b < WORD_LEN_HALF; b++) {
-          if ((w & (1 << b)) != 0) yield wordBase + b;
+  [Symbol.iterator](): Iterator<number> {
+    let wi = 0;
+    let bi = 0;
+    return {
+      next: () => {
+        for (; wi < this.words.length; wi++, bi = 0) {
+          const w = this.words[wi];
+
+          // Makes iteration >50% faster for sparse sets
+          if (w === 0) continue;
+
+          // Makes iteration ~20% faster for sparse sets (after
+          // applying 'w === 0' optimization)
+          if (bi === 0 && (w & WORD_FIRST_HALF_MASK) === 0) bi = WORD_LEN_HALF;
+
+          const wordBase = wi << WORD_LOG;
+          for (; bi < WORD_LEN; bi++) {
+            if ((w & (1 << bi)) != 0) {
+              return { done: false, value: wordBase + bi++ };
+            }
+          }
         }
-      }
-      if ((w & WORD_LATTER_HALF_MASK) !== 0) {
-        for (let b = WORD_LEN_HALF; b < WORD_LEN; b++) {
-          if ((w & (1 << b)) != 0) yield wordBase + b;
-        }
-      }
-    }
+        return { done: true, value: undefined! as number };
+      },
+    };
   }
 }
 
