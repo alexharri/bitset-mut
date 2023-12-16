@@ -164,9 +164,14 @@ export class BitSet {
   }
 
   public has(index: number): boolean {
-    const [w, bit] = parseIndex(index);
+    const w = index >> WORD_LOG;
+    const bit = 1 << index;
     if (w >= this.words.length) return false;
     return (this.words[w] & bit) !== 0;
+  }
+
+  public get(index: number): number {
+    return this.has(index) ? 1 : 0;
   }
 
   public and(bits: IBits): BitSet {
@@ -399,10 +404,6 @@ function bitStringToWords(s: string): number[] {
     out.push(parseInt(si, 2));
   }
   return out;
-}
-
-function parseIndex(index: number): [wordIndex: number, bit: number] {
-  return [index >> WORD_LOG, 1 << index];
 }
 
 function toString(words: number[]) {
