@@ -22,7 +22,9 @@
     "generate-benchmark:iterator": "ts-node -T benchmarks/iterator/generate",
     "benchmark:iterator": "ts-node -T benchmarks/iterator/run",
     "generate-benchmark:cardinality": "ts-node -T benchmarks/cardinality/generate",
-    "benchmark:cardinality": "ts-node -T benchmarks/cardinality/run"
+    "benchmark:cardinality": "ts-node -T benchmarks/cardinality/run",
+    "generate-benchmark:flipRange": "ts-node -T benchmarks/flipRange/generate",
+    "benchmark:flipRange": "ts-node -T benchmarks/flipRange/run"
   },
   "devDependencies": {
     "bitset": "^5.1.1",

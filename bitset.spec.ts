@@ -246,8 +246,11 @@ describe("BitSet", () => {
     bitset.clear();
 
     expectBitIndices(bitset, []);
-    expect(bitset.size).toEqual(0);
-    expect(bitset.length).toEqual(0);
+
+    // Calling 'BitSet.clear' sets all bits to zero, but does not
+    // reduce the size of the BitSets
+    expect(bitset.size).toEqual(128);
+    expect(bitset.length).toEqual(4);
 
     bitset.setRange(10, 20);
 
