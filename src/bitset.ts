@@ -244,9 +244,11 @@ export class BitSet {
    * @returns the number of bits set to 1 in this BitSet
    */
   public get cardinality(): number {
+    const w = this.words;
+    const l = w.length;
     let cardinality = 0;
-    for (const w of this.words) {
-      cardinality += numberOfBitsSetToOne(w);
+    for (let i = 0; i < l; i++) {
+      cardinality += numberOfBitsSetToOne(w[i]);
     }
     return cardinality;
   }

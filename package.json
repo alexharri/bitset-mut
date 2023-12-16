@@ -20,7 +20,9 @@
     "generate-benchmark:get": "ts-node -T benchmarks/get/generate",
     "benchmark:get": "ts-node -T benchmarks/get/run",
     "generate-benchmark:iterator": "ts-node -T benchmarks/iterator/generate",
-    "benchmark:iterator": "ts-node -T benchmarks/iterator/run"
+    "benchmark:iterator": "ts-node -T benchmarks/iterator/run",
+    "generate-benchmark:cardinality": "ts-node -T benchmarks/cardinality/generate",
+    "benchmark:cardinality": "ts-node -T benchmarks/cardinality/run"
   },
   "devDependencies": {
     "bitset": "^5.1.1",
