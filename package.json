@@ -12,7 +12,9 @@
     "generate-benchmark:setRange": "ts-node -T benchmarks/setRange/generate",
     "benchmark:setRange": "ts-node -T benchmarks/setRange/run",
     "generate-benchmark:and": "ts-node -T benchmarks/and/generate",
-    "benchmark:and": "ts-node -T benchmarks/and/run"
+    "benchmark:and": "ts-node -T benchmarks/and/run",
+    "generate-benchmark:or": "ts-node -T benchmarks/or/generate",
+    "benchmark:or": "ts-node -T benchmarks/or/run"
   },
   "devDependencies": {
     "bitset": "^5.1.1",
