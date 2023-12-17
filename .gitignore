@@ -6,3 +6,6 @@ node_modules/
 
 # MacOS files
 .DS_Store
+
+# Build output
+dist/

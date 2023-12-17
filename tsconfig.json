@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
+    "target": "ES2015",
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
