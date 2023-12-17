@@ -66,7 +66,7 @@ export class BitSet {
 
     const w0 = from >> WORD_LOG;
     const w1 = to >> WORD_LOG;
-    resize(this.words, w1 + 1);
+    resize(this.words, w1);
 
     for (let w = w0; w <= w1; w++) {
       if (w > w0 && w < w1) {
@@ -128,7 +128,7 @@ export class BitSet {
 
     const w0 = from >> WORD_LOG;
     const w1 = to >> WORD_LOG;
-    resize(this.words, w1 + 1);
+    resize(this.words, w1);
 
     for (let w = w0; w <= w1; w++) {
       // This optimization seems to yield a ~5% speed increase on sparse
