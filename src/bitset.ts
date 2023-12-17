@@ -117,7 +117,9 @@ export class BitSet {
   public flip(from: number, to: number): BitSet;
   public flip(indexOrFrom: number, to?: number): BitSet {
     if (typeof to === "number") return this.flipRange(indexOrFrom, to);
-    this.set(indexOrFrom, this.has(indexOrFrom) ? 0 : 1);
+    const w = indexOrFrom >> WORD_LOG;
+    resize(this.words, w);
+    this.words[w] ^= 1 << indexOrFrom;
     return this;
   }
 
