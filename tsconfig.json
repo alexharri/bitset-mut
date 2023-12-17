@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "allowJs": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "types": ["node"]
   }
 }
