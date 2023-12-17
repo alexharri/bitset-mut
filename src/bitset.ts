@@ -393,7 +393,7 @@ export class BitSet {
 }
 
 function resize(words: number[], length: number) {
-  while (words.length < length) {
+  for (let i = words.length; i < length; i++) {
     words.push(0);
   }
 }
