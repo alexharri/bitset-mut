@@ -12,9 +12,11 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.5",
+    "@types/fastbitset": "^0.2.2",
     "@types/node": "^20.10.4",
     "arg": "^5.0.2",
     "bitset": "^5.1.1",
+    "fastbitset": "^0.4.1",
     "rollup": "^4.9.1",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",

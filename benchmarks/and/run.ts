@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { BitSet } from "../../src/bitset";
-import BitSet2 from "bitset";
+import { BitSet as BitSet_alexharri } from "../../src/bitset";
+import BitSet_bitset from "bitset";
 import { profile } from "../profile";
+import { makeFastBitSet } from "../utils";
 
 let arrs = JSON.parse(
   fs.readFileSync(
@@ -11,18 +12,21 @@ let arrs = JSON.parse(
   )
 ) as [string, string][][];
 
-const bitsetsA = arrs.map((arr) =>
-  arr.map(([a, b]) => [new BitSet2(a), new BitSet2(b)])
+const bitsets_bitset = arrs.map((arr) =>
+  arr.map(([a, b]) => [new BitSet_bitset(a), new BitSet_bitset(b)])
 );
-const bitsetsB = arrs.map((arr) =>
-  arr.map(([a, b]) => [new BitSet(a), new BitSet(b)])
+const bitsets_fastbitset = arrs.map((arr) =>
+  arr.map(([a, b]) => [makeFastBitSet(a), makeFastBitSet(b)])
+);
+const bitsets_alexharri = arrs.map((arr) =>
+  arr.map(([a, b]) => [new BitSet_alexharri(a), new BitSet_alexharri(b)])
 );
 
 console.log("Running '10-times-1k-bitstring-pairs-of-length-1k' benchmark");
 profile(
   () => {
     for (let n = 0; n < 100; n++) {
-      for (const arr of bitsetsA) {
+      for (const arr of bitsets_bitset) {
         for (let i = 0; i < arr.length; i++) {
           arr[i][0].and(arr[i][1]);
         }
@@ -34,7 +38,19 @@ profile(
 profile(
   () => {
     for (let n = 0; n < 100; n++) {
-      for (const arr of bitsetsB) {
+      for (const arr of bitsets_fastbitset) {
+        for (let i = 0; i < arr.length; i++) {
+          arr[i][0].intersection(arr[i][1]);
+        }
+      }
+    }
+  },
+  (timeMs) => console.log(`\t'fastbitset' ran in ${timeMs.toFixed(1)} ms`)
+);
+profile(
+  () => {
+    for (let n = 0; n < 100; n++) {
+      for (const arr of bitsets_alexharri) {
         for (let i = 0; i < arr.length; i++) {
           arr[i][0].and(arr[i][1]);
         }

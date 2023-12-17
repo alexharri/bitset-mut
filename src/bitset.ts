@@ -192,15 +192,27 @@ export class BitSet {
     return this.has(index) ? 1 : 0;
   }
 
-  public and(bits: IBits): BitSet {
+  public and(bits: BitSet): BitSet {
     const w0 = this.words;
-    const w1 = toWords(bits);
+    const w1 = bits.words;
     const len = Math.min(w0.length, w1.length);
 
-    for (let i = 0; i < len; i++) {
+    let i = 0;
+    // Increases performance by about ~8%
+    for (; i + 7 < len; i += 8) {
+      w0[i] &= w1[i];
+      w0[i + 1] &= w1[i + 1];
+      w0[i + 2] &= w1[i + 2];
+      w0[i + 3] &= w1[i + 3];
+      w0[i + 4] &= w1[i + 4];
+      w0[i + 5] &= w1[i + 5];
+      w0[i + 6] &= w1[i + 6];
+      w0[i + 7] &= w1[i + 7];
+    }
+    for (; i < len; i++) {
       w0[i] &= w1[i];
     }
-    for (let i = w1.length; i < w0.length; i++) {
+    for (; i < w0.length; i++) {
       w0[i] = 0;
     }
     return this;
