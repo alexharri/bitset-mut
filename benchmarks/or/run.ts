@@ -1,8 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { BitSet } from "../../src/bitset";
-import BitSet2 from "bitset";
+import { BitSet as BitSet_alexharri } from "../../src/bitset";
+import BitSet_bitset from "bitset";
 import { profile } from "../profile";
+import { makeFastBitSet } from "../utils";
+
+const N = 30;
 
 let arrs = JSON.parse(
   fs.readFileSync(
@@ -10,22 +13,24 @@ let arrs = JSON.parse(
     "utf-8"
   )
 ) as [string, string][][];
+arrs = arrs.map((arr) => Array(N).fill(arr)).flat();
 
-const bitsetsA = arrs.map((arr) =>
-  arr.map(([a, b]) => [new BitSet2(a), new BitSet2(b)])
+const bitsets_bitset = arrs.map((arr) =>
+  arr.map(([a, b]) => [new BitSet_bitset(a), new BitSet_bitset(b)])
 );
-const bitsetsB = arrs.map((arr) =>
-  arr.map(([a, b]) => [new BitSet(a), new BitSet(b)])
+const bitsets_fastbitset = arrs.map((arr) =>
+  arr.map(([a, b]) => [makeFastBitSet(a), makeFastBitSet(b)])
+);
+const bitsets_alexharri = arrs.map((arr) =>
+  arr.map(([a, b]) => [new BitSet_alexharri(a), new BitSet_alexharri(b)])
 );
 
 console.log("Running '10-times-1k-bitstring-pairs-of-length-1k' benchmark");
 profile(
   () => {
-    for (let n = 0; n < 100; n++) {
-      for (const arr of bitsetsA) {
-        for (let i = 0; i < arr.length; i++) {
-          arr[i][0].or(arr[i][1]);
-        }
+    for (const arr of bitsets_bitset) {
+      for (let i = 0; i < arr.length; i++) {
+        arr[i][0].or(arr[i][1]);
       }
     }
   },
@@ -33,11 +38,19 @@ profile(
 );
 profile(
   () => {
-    for (let n = 0; n < 100; n++) {
-      for (const arr of bitsetsB) {
-        for (let i = 0; i < arr.length; i++) {
-          arr[i][0].or(arr[i][1]);
-        }
+    for (const arr of bitsets_fastbitset) {
+      for (let i = 0; i < arr.length; i++) {
+        arr[i][0].union(arr[i][1]);
+      }
+    }
+  },
+  (timeMs) => console.log(`\t'fastbitset' ran in ${timeMs.toFixed(1)} ms`)
+);
+profile(
+  () => {
+    for (const arr of bitsets_alexharri) {
+      for (let i = 0; i < arr.length; i++) {
+        arr[i][0].or(arr[i][1]);
       }
     }
   },

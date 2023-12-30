@@ -101,7 +101,11 @@ export class BitSet {
    * Set bit at index to 1 (i.e. add it to the set)
    */
   public add(index: number): BitSet {
-    return this.set(index);
+    const w = index >> WORD_LOG;
+    const bit = 1 << index;
+    resize(this.words, w);
+    this.words[w] |= bit;
+    return this;
   }
 
   /**

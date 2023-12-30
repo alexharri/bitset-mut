@@ -265,25 +265,25 @@ describe("BitSet", () => {
 
   test("BitSet.cardinality", () => {
     const bitset = BitSet.fromIndices([1, 35, 125]);
-    expect(bitset.cardinality).toEqual(3);
+    expect(bitset.cardinality()).toEqual(3);
 
     // Add 5 bits to the bitset
     for (const n of [0, 2, 3, 4, 5]) {
       bitset.add(n);
     }
-    expect(bitset.cardinality).toEqual(8);
+    expect(bitset.cardinality()).toEqual(8);
 
     // Add 4 more bits
     for (const n of [1005, 504, 128, 73]) {
       bitset.add(n);
     }
-    expect(bitset.cardinality).toEqual(12);
+    expect(bitset.cardinality()).toEqual(12);
 
     // Remove 3 bits
     for (const n of [1, 1005, 128]) {
       bitset.remove(n);
     }
-    expect(bitset.cardinality).toEqual(9);
+    expect(bitset.cardinality()).toEqual(9);
   });
 
   test("BitSet.clone", () => {
@@ -470,7 +470,6 @@ describe("BitSet", () => {
     }
     expect(yieldedBits).toEqual(bits);
   });
-
   test("BitSet.forEach", () => {
     const bitset = new BitSet();
 

@@ -3,6 +3,7 @@ import path from "path";
 import { BitSet as BitSet_alexharri } from "../../src/bitset";
 import BitSet_bitset from "bitset";
 import { profile } from "../profile";
+import { makeFastBitSet } from "../utils";
 
 let arrs = JSON.parse(
   fs.readFileSync(
@@ -11,21 +12,20 @@ let arrs = JSON.parse(
   )
 ) as [string, number[]][][];
 
-const bitsetsA = arrs.map((arr) =>
+const bitsets_bitset = arrs.map((arr) =>
   arr.map(
     ([bitstring, indices]) => [new BitSet_bitset(bitstring), indices] as const
   )
 );
-const bitsetsB = arrs.map((arr) =>
+const bitsets_alexharri = arrs.map((arr) =>
   arr.map(
     ([bitstring, indices]) =>
       [new BitSet_alexharri(bitstring), indices] as const
   )
 );
-const sets = arrs.map((arr) =>
+const bitsets_fastbitset = arrs.map((arr) =>
   arr.map(
-    ([bitstring, indices]) =>
-      [new Set(new BitSet_alexharri(bitstring)), indices] as const
+    ([bitstring, indices]) => [makeFastBitSet(bitstring), indices] as const
   )
 );
 
@@ -35,7 +35,7 @@ console.log("Running '10-times-1k-bitstring-and-indices' benchmark");
 profile(
   () => {
     for (let n = 0; n < N; n++) {
-      for (const arr of bitsetsA) {
+      for (const arr of bitsets_bitset) {
         for (let i = 0; i < arr.length; i++) {
           const bitset = arr[i][0];
           const indices = arr[i][1];
@@ -51,7 +51,7 @@ profile(
 profile(
   () => {
     for (let n = 0; n < N; n++) {
-      for (const arr of bitsetsB) {
+      for (const arr of bitsets_alexharri) {
         for (let i = 0; i < arr.length; i++) {
           const bitset = arr[i][0];
           const indices = arr[i][1];
@@ -67,16 +67,16 @@ profile(
 profile(
   () => {
     for (let n = 0; n < N; n++) {
-      for (const arr of sets) {
+      for (const arr of bitsets_fastbitset) {
         for (let i = 0; i < arr.length; i++) {
-          const set = arr[i][0];
+          const bitset = arr[i][0];
           const indices = arr[i][1];
           for (const index of indices) {
-            set.has(index);
+            bitset.has(index);
           }
         }
       }
     }
   },
-  (timeMs) => console.log(`\t'set' ran in ${timeMs.toFixed(1)} ms`)
+  (timeMs) => console.log(`\t'fastbitset' ran in ${timeMs.toFixed(1)} ms`)
 );
