@@ -56,7 +56,7 @@ new BitSet([0, 1, 5]).toString();
 //=> "100011"
 ```
 
-You can also create a `BitSet` using some static methods:
+You can also create `BitSet`s using a few static methods:
 
 ```tsx
 BitSet.fromIndices([0, 1, 5]).toString();
