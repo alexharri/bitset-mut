@@ -69,7 +69,7 @@ BitSet.random(10).toString();
 //=> "101001101"
 ```
 
-## Methods
+## Usage
 
 - [BitSet.add](#BitSet.add(index))
 - [BitSet.remove](#BitSet.remove(index))
