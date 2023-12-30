@@ -20,9 +20,24 @@ As the package name suggests, most methods mutate the original `BitSet` instead 
 
 This can be worked around by cloning before mutating via the `clone()` method.
 
+## Basic usage
+
+```tsx
+import { BitSet } from "bitset-mut";
+
+const a = new BitSet("11110101");
+const b = new BitSet([0, 2, 7]);
+
+a.add(1).remove(5);
+b.flip(4, 6);
+
+console.log(a.and(b).toString());
+//=> "11010101"
+```
+
 ## Creating a `BitSet`
 
-The `BitSet` constructor accepts one of:
+The `BitSet` constructor accepts:
 
 - A bit string, only comprised of 0s and 1s (e.g. `"10011010"`)
 - An array of indices, which sets the bits at the provided indices
@@ -56,31 +71,31 @@ BitSet.random(10).toString();
 
 ## Methods
 
-- [add](#BitSet.add(index))
-- [remove](#BitSet.remove(index))
-- [has](#BitSet.has(index))
-- [set](#BitSet.set)
-- [setRange](#BitSet.setRange)
-- [setMultiple](#BitSet.setMultiple(indices))
-- [flip](#BitSet.flip(index))
-- [slice](#BitSet.slice())
-- [invert](#BitSet.invert())
-- [and](#BitSet.and(other))
-- [or](#BitSet.or(other))
-- [andNot](#BitSet.andNot(other))
-- [xor](#BitSet.xor(other))
-- [clear](#BitSet.clear())
-- [empty](#BitSet.empty())
-- [equals](#BitSet.equals(other))
-- [intersects](#BitSet.intersects(other))
-- [isEmpty](#BitSet.isEmpty())
-- [clone](#BitSet.clone())
-- [forEach](#BitSet.forEach(callback))
-- [Symbol.iterator](#BitSet[Symbol.iterator])
-- [toString](#BitSet.toString())
-- [size](#BitSet.size)
-- [length](#BitSet.length)
-- [cardinality](#BitSet.cardinality)
+- [BitSet.add](#BitSet.add(index))
+- [BitSet.remove](#BitSet.remove(index))
+- [BitSet.has](#BitSet.has(index))
+- [BitSet.set](#BitSet.set)
+- [BitSet.setRange](#BitSet.setRange)
+- [BitSet.setMultiple](#BitSet.setMultiple(indices))
+- [BitSet.flip](#BitSet.flip(index))
+- [BitSet.slice](#BitSet.slice())
+- [BitSet.invert](#BitSet.invert())
+- [BitSet.and](#BitSet.and(other))
+- [BitSet.or](#BitSet.or(other))
+- [BitSet.andNot](#BitSet.andNot(other))
+- [BitSet.xor](#BitSet.xor(other))
+- [BitSet.clear](#BitSet.clear())
+- [BitSet.empty](#BitSet.empty())
+- [BitSet.equals](#BitSet.equals(other))
+- [BitSet.intersects](#BitSet.intersects(other))
+- [BitSet.isEmpty](#BitSet.isEmpty())
+- [BitSet.clone](#BitSet.clone())
+- [BitSet.forEach](#BitSet.forEach(callback))
+- [BitSet.Symbol.iterator](#BitSet[Symbol.iterator])
+- [BitSet.toString](#BitSet.toString())
+- [BitSet.size](#BitSet.size)
+- [BitSet.length](#BitSet.length)
+- [BitSet.cardinality](#BitSet.cardinality)
 
 ### BitSet.add(index)
 
