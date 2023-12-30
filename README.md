@@ -71,33 +71,33 @@ BitSet.random(10).toString();
 
 ## Usage
 
-- [BitSet.add](#BitSet.add(index))
-- [BitSet.remove](#BitSet.remove(index))
-- [BitSet.has](#BitSet.has(index))
+- [BitSet.add](#BitSet.add)
+- [BitSet.remove](#BitSet.remove)
+- [BitSet.has](#BitSet.has)
 - [BitSet.set](#BitSet.set)
 - [BitSet.setRange](#BitSet.setRange)
-- [BitSet.setMultiple](#BitSet.setMultiple(indices))
-- [BitSet.flip](#BitSet.flip(index))
-- [BitSet.slice](#BitSet.slice())
-- [BitSet.invert](#BitSet.invert())
-- [BitSet.and](#BitSet.and(other))
-- [BitSet.or](#BitSet.or(other))
-- [BitSet.andNot](#BitSet.andNot(other))
-- [BitSet.xor](#BitSet.xor(other))
-- [BitSet.clear](#BitSet.clear())
-- [BitSet.empty](#BitSet.empty())
-- [BitSet.equals](#BitSet.equals(other))
-- [BitSet.intersects](#BitSet.intersects(other))
-- [BitSet.isEmpty](#BitSet.isEmpty())
-- [BitSet.clone](#BitSet.clone())
-- [BitSet.forEach](#BitSet.forEach(callback))
+- [BitSet.setMultiple](#BitSet.setMultiple)
+- [BitSet.flip](#BitSet.flip)
+- [BitSet.slice](#BitSet.slice)
+- [BitSet.invert](#BitSet.invert)
+- [BitSet.and](#BitSet.and)
+- [BitSet.or](#BitSet.or)
+- [BitSet.andNot](#BitSet.andNot)
+- [BitSet.xor](#BitSet.xor)
+- [BitSet.clear](#BitSet.clear)
+- [BitSet.empty](#BitSet.empty)
+- [BitSet.equals](#BitSet.equals)
+- [BitSet.intersects](#BitSet.intersects)
+- [BitSet.isEmpty](#BitSet.isEmpty)
+- [BitSet.clone](#BitSet.clone)
+- [BitSet.forEach](#BitSet.forEach)
 - [BitSet.Symbol.iterator](#BitSet[Symbol.iterator])
-- [BitSet.toString](#BitSet.toString())
+- [BitSet.toString](#BitSet.toString)
 - [BitSet.size](#BitSet.size)
 - [BitSet.length](#BitSet.length)
 - [BitSet.cardinality](#BitSet.cardinality)
 
-### BitSet.add(index)
+<h3 id="BitSet.add">BitSet.add(index)</h3>
 
 ```tsx
 class BitSet {
@@ -107,7 +107,7 @@ class BitSet {
 
 Sets the bit at `index` to 1, adding `index` to the set.
 
-### BitSet.remove(index)
+<h3 id="BitSet.remove">BitSet.remove(index)</h3>
 
 ```tsx
 class BitSet {
@@ -117,7 +117,7 @@ class BitSet {
 
 Sets the bit at `index` to 0, removing `index` from the set.
 
-### BitSet.has(index)
+<h3 id="BitSet.has">BitSet.has(index)</h3>
 
 ```tsx
 class BitSet {
@@ -145,7 +145,7 @@ class BitSet {
 
 Sets the bits between `from` and `to` (inclusive) to 1 if `value` is truthy, and 0 otherwise. If `value` is not provided, it defaults to 1.
 
-### BitSet.setMultiple(indices)
+<h3 id="BitSet.setMultiple">BitSet.setMultiple(indices)</h3>
 
 ```tsx
 class BitSet {
@@ -155,7 +155,7 @@ class BitSet {
 
 Sets the bit at the `indices` to 1 if `value` is truthy, and 0 otherwise. If `value` is not provided, it defaults to 1.
 
-### BitSet.flip(index)
+<h3 id="BitSet.flip">BitSet.flip(index)</h3>
 
 ```tsx
 class BitSet {
@@ -175,7 +175,7 @@ class BitSet {
 
 Flips the bit between `from` and `to` (inclusive), changing 0 to 1 and 1 to 0.
 
-### BitSet.slice()
+<h3 id="BitSet.slice">BitSet.slice()</h3>
 
 ```tsx
 class BitSet {
@@ -195,7 +195,7 @@ class BitSet {
 
 Returns a new `BitSet` only containing the bits in the range `from` (inclusive) and `to` (exclusive).
 
-### BitSet.invert()
+<h3 id="BitSet.invert">BitSet.invert()</h3>
 
 ```tsx
 class BitSet {
@@ -205,7 +205,7 @@ class BitSet {
 
 Inverts every bit in the bit set, changing 0 to 1 and 1 to 0.
 
-### BitSet.and(other)
+<h3 id="BitSet.and">BitSet.and(other)</h3>
 
 ```tsx
 class BitSet {
@@ -228,7 +228,7 @@ b.toString(); // 'b' has not been mutated
 //=> "1101"
 ```
 
-### BitSet.or(other)
+<h3 id="BitSet.or">BitSet.or(other)</h3>
 
 ```tsx
 class BitSet {
@@ -251,7 +251,7 @@ b.toString(); // 'b' has not been mutated
 //=> "1100"
 ```
 
-### BitSet.andNot(other)
+<h3 id="BitSet.andNot">BitSet.andNot(other)</h3>
 
 ```tsx
 class BitSet {
@@ -274,7 +274,7 @@ b.toString(); // 'b' has not been mutated
 //=> "1100"
 ```
 
-### BitSet.xor(other)
+<h3 id="BitSet.xor">BitSet.xor(other)</h3>
 
 ```tsx
 class BitSet {
@@ -297,7 +297,7 @@ b.toString(); // 'b' has not been mutated
 //=> "1100"
 ```
 
-### BitSet.clear()
+<h3 id="BitSet.clear">BitSet.clear()</h3>
 
 ```tsx
 class BitSet {
@@ -327,7 +327,7 @@ class BitSet {
 
 Sets the bits between `from` and `to` (inclusive) to zero
 
-### BitSet.empty()
+<h3 id="BitSet.empty">BitSet.empty()</h3>
 
 ```tsx
 class BitSet {
@@ -337,7 +337,7 @@ class BitSet {
 
 Removes all bits from the bitset, setting its size to 0.
 
-### BitSet.equals(other)
+<h3 id="BitSet.equals">BitSet.equals(other)</h3>
 
 ```tsx
 class BitSet {
@@ -347,7 +347,7 @@ class BitSet {
 
 Returns true if this and the other `BitSet` are equal (have the same bits set to 1). The size of the `BitSet`s is not considered.
 
-### BitSet.intersects(other)
+<h3 id="BitSet.intersects">BitSet.intersects(other)</h3>
 
 ```tsx
 class BitSet {
@@ -357,7 +357,7 @@ class BitSet {
 
 Returns true if this and the other `BitSet` have any bits set to 1 in common (i.e. if they overlap).
 
-### BitSet.isEmpty()
+<h3 id="BitSet.isEmpty">BitSet.isEmpty()</h3>
 
 ```tsx
 class BitSet {
@@ -367,7 +367,7 @@ class BitSet {
 
 Returns true if no bits are set to 1.
 
-### BitSet.clone()
+<h3 id="BitSet.clone">BitSet.clone()</h3>
 
 ```tsx
 class BitSet {
@@ -377,7 +377,7 @@ class BitSet {
 
 Returns a clone of the `BitSet`.
 
-### BitSet.forEach(callback)
+<h3 id="BitSet.forEach">BitSet.forEach(callback)</h3>
 
 ```tsx
 class BitSet {
@@ -387,7 +387,7 @@ class BitSet {
 
 Invokes `callback` with the index of every bit set to 1, in ascending order.
 
-### BitSet[Symbol.iterator]
+<h3 id="BitSet[Symbol.iterator]">BitSet[Symbol.iterator]</h3>
 
 ```tsx
 class BitSet {
@@ -397,7 +397,7 @@ class BitSet {
 
 Returns an iterator that yields the index of every bit set to 1, in ascending order.
 
-### BitSet.toString()
+<h3 id="BitSet.toString">BitSet.toString()</h3>
 
 ```tsx
 class BitSet {
@@ -407,7 +407,7 @@ class BitSet {
 
 Returns the `BitSet` serialized as a bit string (e.g. `"10001010"`).
 
-### BitSet.size
+<h3 id="BitSet.size">BitSet.size</h3>
 
 ```tsx
 class BitSet {
@@ -417,7 +417,7 @@ class BitSet {
 
 Returns the number of bits in the `BitSet`.
 
-### BitSet.length
+<h3 id="BitSet.length">BitSet.length</h3>
 
 ```tsx
 class BitSet {
@@ -427,7 +427,7 @@ class BitSet {
 
 Returns the number of words (32-bit integers) in the `BitSet`.
 
-### BitSet.cardinality
+<h3 id="BitSet.cardinality">BitSet.cardinality</h3>
 
 ```tsx
 class BitSet {
