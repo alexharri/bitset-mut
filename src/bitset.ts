@@ -9,7 +9,7 @@ import {
   WORD_LOG,
 } from "./constants";
 
-type IBits = BitSet | string | number | number[];
+type IBits = BitSet | string | number[];
 
 export class BitSet {
   public words: number[];
@@ -22,9 +22,15 @@ export class BitSet {
     this.words = toWords(bits, true);
   }
 
-  public static fromIndices(indices: number[]) {
+  public static fromBitMask(bitmask: number): BitSet {
     const bitset = new BitSet();
-    bitset.setMultiple(indices);
+    bitset.words = [bitmask | 0];
+    return bitset;
+  }
+
+  public static fromIndices(indices: number[]): BitSet {
+    const bitset = new BitSet();
+    bitset.words = indicesToWords(indices);
     return bitset;
   }
 
@@ -254,10 +260,16 @@ export class BitSet {
   }
 
   /**
-   * Sets all bits to zero, and sets the size and length of this BitSet to zero
+   * Sets all bits to zero without changing the size of the BitSet
    */
   public clear(): BitSet;
+  /**
+   * Sets the bit at the specified index to zero
+   */
   public clear(index: number): BitSet;
+  /**
+   * Sets the bits in the specified range to zero
+   */
   public clear(from: number, to: number): BitSet;
   public clear(from?: number, to?: number): BitSet {
     if (typeof to === "number") {
@@ -273,13 +285,20 @@ export class BitSet {
   }
 
   /**
+   * Removes all bits from the bitset, setting its size to 0
+   */
+  public empty() {
+    this.words = [];
+  }
+
+  /**
    * @returns the number of bits set to 1 in this BitSet
    */
   public get cardinality(): number {
     const w = this.words;
-    const l = w.length;
+    const len = w.length;
     let cardinality = 0;
-    for (let i = 0; i < l; i++) {
+    for (let i = 0; i < len; i++) {
       cardinality += hammingWeight(w[i]);
     }
     return cardinality;
@@ -422,15 +441,30 @@ function resize(words: number[], length: number) {
   }
 }
 
+function indicesToWords(indices: number[]) {
+  const words: number[] = [];
+
+  let maxWordIndex = -1;
+  for (let i = 0; i < indices.length; i++) {
+    const wordIndex = indices[i] >> WORD_LOG;
+    if (wordIndex > maxWordIndex) maxWordIndex = wordIndex;
+  }
+  resize(words, maxWordIndex);
+
+  for (let i = 0; i < indices.length; i++) {
+    const index = indices[i];
+    words[index >> WORD_LOG] |= 1 << index;
+  }
+
+  return words;
+}
+
 function toWords(bits: IBits, clone = false): number[] {
   if (bits instanceof BitSet) {
     return clone ? bits.words.concat() : bits.words;
   }
   if (Array.isArray(bits)) {
-    return clone ? bits.concat() : bits;
-  }
-  if (typeof bits === "number") {
-    return [bits | 0];
+    return indicesToWords(bits);
   }
   if (typeof bits === "string") {
     return bitStringToWords(bits);

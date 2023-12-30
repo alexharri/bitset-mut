@@ -29,8 +29,8 @@ function range(from: number, to: number) {
 describe("BitSet", () => {
   test("creating a new bitset", () => {
     expectBits(new BitSet(), "0");
-    expectBits(new BitSet(0b0110110), "110110");
-    expectBits(new BitSet(new BitSet(0b0110110)), "110110");
+    expectBits(BitSet.fromBitMask(0b0110110), "110110");
+    expectBits(new BitSet(BitSet.fromBitMask(0b0110110)), "110110");
     expectBits(new BitSet(""), "0");
     expectBits(
       new BitSet("0000000000000000000000000000000000000000000000000000000"),
@@ -44,10 +44,7 @@ describe("BitSet", () => {
       ),
       "100100000000000000000000000000001000"
     );
-    expectBits(
-      new BitSet([0b0110011, 0b100000000001]),
-      "10000000000100000000000000000000000000110011"
-    );
+    expectBits(new BitSet([1, 4, 11]), "100000010010");
   });
 
   test("strings with characters other than '0' and '1' are rejected", () => {
@@ -167,7 +164,7 @@ describe("BitSet", () => {
     bitset.set(50);
     expectBitIndices(bitset, [1, 3, 5, 50]);
 
-    bitset.andNot(0b1000);
+    bitset.andNot(BitSet.fromBitMask(0b1000));
     expectBitIndices(bitset, [1, 5, 50]);
 
     bitset.andNot(BitSet.fromIndices([58]));
@@ -316,8 +313,8 @@ describe("BitSet", () => {
       )
     ).toEqual(false);
 
-    const a = new BitSet(0b1001);
-    const b = new BitSet(0b1001);
+    const a = BitSet.fromBitMask(0b1001);
+    const b = BitSet.fromBitMask(0b1001);
     expect(a.equals(b)).toEqual(true);
     a.flip(100);
     expect(a.equals(b)).toEqual(false);
