@@ -26,7 +26,7 @@ profile(
       bitset1.flip(ranges[i][0], ranges[i][1]);
     }
   },
-  (timeMs) => console.log(`\t'alexharri/bitset' ran in ${timeMs.toFixed(1)} ms`)
+  (timeMs) => console.log(`\t'bitset-mut' ran in ${timeMs.toFixed(1)} ms`)
 );
 
 function makeSparseSet<T extends BitSet | BitSet2>(bitset: T) {
@@ -68,5 +68,5 @@ profile(
       }
     }
   },
-  (timeMs) => console.log(`\t'alexharri/bitset' ran in ${timeMs.toFixed(1)} ms`)
+  (timeMs) => console.log(`\t'bitset-mut' ran in ${timeMs.toFixed(1)} ms`)
 );
