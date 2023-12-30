@@ -280,7 +280,7 @@ export class BitSet {
     const l = w.length;
     let cardinality = 0;
     for (let i = 0; i < l; i++) {
-      cardinality += numberOfBitsSetToOne(w[i]);
+      cardinality += hammingWeight(w[i]);
     }
     return cardinality;
   }
@@ -376,29 +376,41 @@ export class BitSet {
     }
   }
 
+  forEach(callback: (index: number) => void) {
+    const words = this.words;
+    const len = words.length;
+    for (let wordIndex = 0; wordIndex < len; wordIndex++) {
+      let word = words[wordIndex];
+      while (word !== 0) {
+        const lsb = word & -word;
+        const index = (wordIndex << WORD_LOG) + hammingWeight(lsb - 1);
+        word ^= lsb;
+        callback(index);
+      }
+    }
+  }
+
   [Symbol.iterator](): Iterator<number> {
-    let wi = 0;
-    let bi = 0;
+    const words = this.words;
+    const len = words.length;
+
+    let wordIndex = 0;
+    let word = words[0];
+
     return {
       next: () => {
-        for (; wi < this.words.length; wi++, bi = 0) {
-          const w = this.words[wi];
-
-          // Makes iteration >50% faster for sparse sets
-          if (w === 0) continue;
-
-          // Makes iteration ~20% faster for sparse sets (after
-          // applying 'w === 0' optimization)
-          if (bi === 0 && (w & WORD_FIRST_HALF_MASK) === 0) bi = WORD_LEN_HALF;
-
-          const wordBase = wi << WORD_LOG;
-          for (; bi < WORD_LEN; bi++) {
-            if ((w & (1 << bi)) != 0) {
-              return { done: false, value: wordBase + bi++ };
-            }
+        while (wordIndex < len) {
+          if (word !== 0) {
+            const lsb = word & -word;
+            const index = (wordIndex << WORD_LOG) + hammingWeight(lsb - 1);
+            word ^= lsb;
+            return { done: false, value: index };
+          } else {
+            wordIndex++;
+            word = words[wordIndex];
           }
         }
-        return { done: true, value: undefined! as number };
+        return { done: true, value: -1 };
       },
     };
   }
@@ -465,7 +477,7 @@ function toString(words: number[]) {
 /**
  * @returns the number of bits set to one in the provided number
  */
-function numberOfBitsSetToOne(n: number): number {
+function hammingWeight(n: number): number {
   n -= (n >> 1) & 0x55555555;
   n = (n & 0x33333333) + ((n >>> 2) & 0x33333333);
   return (((n + (n >>> 4)) & 0xf0f0f0f) * 0x1010101) >> 24;

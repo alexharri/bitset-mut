@@ -459,10 +459,10 @@ describe("BitSet", () => {
     ]);
   });
 
-  test("iterate over BitSet", () => {
+  test("BitSet[Symbol.iterator]", () => {
     const bitset = new BitSet();
 
-    const bits = [1, 2, 3, 4, 8, 9, 10, 34, 80, 1111];
+    const bits = [1, 2, 3, 4, 8, 9, 10, 34, 80, ...range(100, 300), 1111];
     for (const n of bits) {
       bitset.set(n);
     }
@@ -471,6 +471,19 @@ describe("BitSet", () => {
     for (const bit of bitset) {
       yieldedBits.push(bit);
     }
+    expect(yieldedBits).toEqual(bits);
+  });
+
+  test("BitSet.forEach", () => {
+    const bitset = new BitSet();
+
+    const bits = [0, 1, 2, 3, 4, 8, 9, 10, 34, 80, ...range(100, 300), 1111];
+    for (const n of bits) {
+      bitset.set(n);
+    }
+
+    const yieldedBits: number[] = [];
+    bitset.forEach((bit) => yieldedBits.push(bit));
     expect(yieldedBits).toEqual(bits);
   });
 
