@@ -294,12 +294,13 @@ export class BitSet {
   /**
    * @returns the number of bits set to 1 in this BitSet
    */
-  public get cardinality(): number {
-    const w = this.words;
-    const len = w.length;
+  public cardinality(): number {
+    const words = this.words;
+    const len = words.length;
     let cardinality = 0;
     for (let i = 0; i < len; i++) {
-      cardinality += hammingWeight(w[i]);
+      const word = words[i];
+      cardinality += hammingWeight(word);
     }
     return cardinality;
   }

@@ -405,6 +405,17 @@ class BitSet {
 }
 ```
 
+<h3 id="BitSet.cardinality">BitSet.cardinality()</h3>
+
+```tsx
+class BitSet {
+  cardinality(): number;
+}
+```
+
+Returns the number of bits (i.e. count) set to 1.
+
+
 Returns the `BitSet` serialized as a bit string (e.g. `"10001010"`).
 
 <h3 id="BitSet.size">BitSet.size</h3>
@@ -426,13 +437,3 @@ class BitSet {
 ```
 
 Returns the number of words (32-bit integers) in the `BitSet`.
-
-<h3 id="BitSet.cardinality">BitSet.cardinality</h3>
-
-```tsx
-class BitSet {
-  readonly cardinality: number;
-}
-```
-
-Returns the number of bits (i.e. count) set to 1.

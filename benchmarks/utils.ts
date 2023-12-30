@@ -9,3 +9,13 @@ export function makeFastBitSet(bitstr: string) {
   }
   return bitset;
 }
+
+export function makeRandomFastBitSet(size: number) {
+  const bitset = new FastBitSet();
+  for (let i = 0; i < size; i++) {
+    if (Math.random() > 0.5) {
+      bitset.add(i);
+    }
+  }
+  return bitset;
+}
