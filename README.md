@@ -1,4 +1,24 @@
-# BitSet
+<h1 align="center">
+  bitset-mut
+</h1>
+
+<p align="center">
+  A highly performant bit set implementation, with a nice-to-use interface.
+</p>
+
+---
+
+The `bitset-mut` package exports a single `BitSet` class.
+
+```tsx
+import { BitSet } from "bitset-mut";
+
+const bitset = new BitSet();
+```
+
+As the package name suggests, most methods mutate the original `BitSet` instead of returning a new `BitSet`. This is done because cloning large `BitSet`s may prove expensive.
+
+This can be worked around by cloning before mutating via the `clone()` method.
 
 ## Creating a `BitSet`
 
@@ -36,6 +56,32 @@ BitSet.random(10).toString();
 
 ## Methods
 
+- [add](#BitSet.add(index))
+- [remove](#BitSet.remove(index))
+- [has](#BitSet.has(index))
+- [set](#BitSet.set)
+- [setRange](#BitSet.setRange)
+- [setMultiple](#BitSet.setMultiple(indices))
+- [flip](#BitSet.flip(index))
+- [slice](#BitSet.slice())
+- [invert](#BitSet.invert())
+- [and](#BitSet.and(other))
+- [or](#BitSet.or(other))
+- [andNot](#BitSet.andNot(other))
+- [xor](#BitSet.xor(other))
+- [clear](#BitSet.clear())
+- [empty](#BitSet.empty())
+- [equals](#BitSet.equals(other))
+- [intersects](#BitSet.intersects(other))
+- [isEmpty](#BitSet.isEmpty())
+- [clone](#BitSet.clone())
+- [forEach](#BitSet.forEach(callback))
+- [Symbol.iterator](#BitSet[Symbol.iterator])
+- [toString](#BitSet.toString())
+- [size](#BitSet.size)
+- [length](#BitSet.length)
+- [cardinality](#BitSet.cardinality)
+
 ### BitSet.add(index)
 
 ```tsx
@@ -64,7 +110,7 @@ class BitSet {
 }
 ```
 
-### BitSet.set(index, value)
+<h3 id="BitSet.set">BitSet.set(index, value)</h3>
 
 ```tsx
 class BitSet {
@@ -74,7 +120,7 @@ class BitSet {
 
 Sets the bit at `index` to 1 if `value` is truthy, and 0 otherwise. If `value` is not provided, it defaults to 1.
 
-### BitSet.setRange(from, to, value)
+<h3 id="BitSet.setRange">BitSet.setRange(from, to, value)</h3>
 
 ```tsx
 class BitSet {
