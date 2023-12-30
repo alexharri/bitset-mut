@@ -198,9 +198,9 @@ export class BitSet {
     return this.has(index) ? 1 : 0;
   }
 
-  public and(bits: BitSet): BitSet {
+  public and(other: BitSet): BitSet {
     const w0 = this.words;
-    const w1 = bits.words;
+    const w1 = other.words;
     const len = Math.min(w0.length, w1.length);
 
     let i = 0;
@@ -224,9 +224,9 @@ export class BitSet {
     return this;
   }
 
-  public andNot(bits: IBits): BitSet {
+  public andNot(other: IBits): BitSet {
     const w0 = this.words;
-    const w1 = toWords(bits);
+    const w1 = toWords(other);
     const len = Math.min(w0.length, w1.length);
 
     for (let i = 0; i < len; i++) {
@@ -235,8 +235,8 @@ export class BitSet {
     return this;
   }
 
-  public or(bits: IBits): BitSet {
-    const w = toWords(bits);
+  public or(other: IBits): BitSet {
+    const w = toWords(other);
 
     // Make this bitset _at least_ as long as the BitSet being passed
     resize(this.words, w.length);
@@ -247,8 +247,8 @@ export class BitSet {
     return this;
   }
 
-  public xor(bits: IBits): BitSet {
-    const w = toWords(bits);
+  public xor(other: IBits): BitSet {
+    const w = toWords(other);
 
     // Make this bitset _at least_ as long as the BitSet being passed
     resize(this.words, w.length);
@@ -320,7 +320,7 @@ export class BitSet {
   public intersects(bits: IBits): boolean {
     let w0 = this.words;
     let w1 = toWords(bits);
-    const len = Math.min(w0.length, w0.length);
+    const len = Math.min(w0.length, w1.length);
     for (let i = 0; i < len; i++) {
       if ((w0[i] & w1[i]) !== 0) return true;
     }

@@ -114,17 +114,27 @@ class BitSet {
 
 Flips the bit between `from` and `to` (inclusive), changing 0 to 1 and 1 to 0.
 
-### BitSet.slice
+### BitSet.slice()
 
 ```tsx
 class BitSet {
-  slice(from?: number, to?: number): BitSet;
+  slice(): BitSet;
 }
 ```
 
-Returns a new `BitSet` only containing the bits in the range `from` and `to` (exclusive).
+Clones the bit set. To clone a specific portion, use `BitSet.slice(from, to)`.
 
-### BitSet.invert
+### BitSet.slice(from, to)
+
+```tsx
+class BitSet {
+  slice(from: number, to: number): BitSet;
+}
+```
+
+Returns a new `BitSet` only containing the bits in the range `from` (inclusive) and `to` (exclusive).
+
+### BitSet.invert()
 
 ```tsx
 class BitSet {
@@ -134,11 +144,11 @@ class BitSet {
 
 Inverts every bit in the bit set, changing 0 to 1 and 1 to 0.
 
-### BitSet.and
+### BitSet.and(other)
 
 ```tsx
 class BitSet {
-  and(bits: BitSet): BitSet;
+  and(other: BitSet): BitSet;
 }
 ```
 
@@ -157,11 +167,11 @@ b.toString(); // 'b' has not been mutated
 //=> "1101"
 ```
 
-### BitSet.or
+### BitSet.or(other)
 
 ```tsx
 class BitSet {
-  or(bits: BitSet): BitSet;
+  or(other: BitSet): BitSet;
 }
 ```
 
@@ -180,11 +190,11 @@ b.toString(); // 'b' has not been mutated
 //=> "1100"
 ```
 
-### BitSet.andNot
+### BitSet.andNot(other)
 
 ```tsx
 class BitSet {
-  andNot(bits: BitSet): BitSet;
+  andNot(other: BitSet): BitSet;
 }
 ```
 
@@ -203,11 +213,11 @@ b.toString(); // 'b' has not been mutated
 //=> "1100"
 ```
 
-### BitSet.andNot
+### BitSet.xor(other)
 
 ```tsx
 class BitSet {
-  xor(bits: BitSet): BitSet;
+  xor(other: BitSet): BitSet;
 }
 ```
 
@@ -266,11 +276,101 @@ class BitSet {
 
 Removes all bits from the bitset, setting its size to 0.
 
+### BitSet.equals(other)
+
+```tsx
+class BitSet {
+  equals(other: BitSet): boolean;
+}
+```
+
+Returns true if this and the other `BitSet` are equal (have the same bits set to 1). The size of the `BitSet`s is not considered.
+
+### BitSet.intersects(other)
+
+```tsx
+class BitSet {
+  intersects(other: BitSet): boolean;
+}
+```
+
+Returns true if this and the other `BitSet` have any bits set to 1 in common (i.e. if they overlap).
+
+### BitSet.isEmpty()
+
+```tsx
+class BitSet {
+  isEmpty(): boolean;
+}
+```
+
+Returns true if no bits are set to 1.
+
+### BitSet.clone()
+
+```tsx
+class BitSet {
+  clone(): BitSet;
+}
+```
+
+Returns a clone of the `BitSet`.
+
+### BitSet.forEach(callback)
+
+```tsx
+class BitSet {
+  forEach(callback: (index: number) => void): void;
+}
+```
+
+Invokes `callback` with the index of every bit set to 1, in ascending order.
+
+### BitSet[Symbol.iterator]
+
+```tsx
+class BitSet {
+  [Symbol.iterator](): Iterator<number>;
+}
+```
+
+Returns an iterator that yields the index of every bit set to 1, in ascending order.
+
+### BitSet.toString()
+
+```tsx
+class BitSet {
+  toString(): string;
+}
+```
+
+Returns the `BitSet` serialized as a bit string (e.g. `"10001010"`).
+
+### BitSet.size
+
+```tsx
+class BitSet {
+  size: number;
+}
+```
+
+Returns the number of bits in the `BitSet`.
+
+### BitSet.length
+
+```tsx
+class BitSet {
+  length: number;
+}
+```
+
+Returns the number of words (32-bit integers) in the `BitSet`.
+
 ### BitSet.cardinality
 
 ```tsx
 class BitSet {
-  cardinality: number;
+  readonly cardinality: number;
 }
 ```
 
