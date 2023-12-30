@@ -91,7 +91,7 @@ BitSet.random(10).toString();
 - [BitSet.isEmpty](#BitSet.isEmpty)
 - [BitSet.clone](#BitSet.clone)
 - [BitSet.forEach](#BitSet.forEach)
-- [BitSet.Symbol.iterator](#BitSet[Symbol.iterator])
+- [BitSet[Symbol.iterator]](#BitSet[Symbol.iterator])
 - [BitSet.toString](#BitSet.toString)
 - [BitSet.size](#BitSet.size)
 - [BitSet.length](#BitSet.length)
