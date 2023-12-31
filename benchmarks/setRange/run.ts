@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { BitSet } from "../../src/bitset";
-import BitSet2 from "bitset";
+import { BitSet as BitSet_alexharri } from "../../src/bitset";
+import BitSet_bitset from "bitset";
 import { profile } from "../profile";
 
 let arrs = JSON.parse(
@@ -12,7 +12,7 @@ console.log("Running '10-times-100k-ranges' benchmark");
 profile(
   () => {
     for (const arr of arrs) {
-      const bitset = new BitSet2();
+      const bitset = new BitSet_bitset();
       for (let i = 0; i < arr.length; i++) {
         bitset.setRange(arr[i][0], arr[i][1], 1);
       }
@@ -23,7 +23,7 @@ profile(
 profile(
   () => {
     for (const arr of arrs) {
-      const bitset = new BitSet();
+      const bitset = new BitSet_alexharri();
       for (let i = 0; i < arr.length; i++) {
         bitset.setRange(arr[i][0], arr[i][1], 1);
       }

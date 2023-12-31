@@ -133,3 +133,28 @@ Running '10-times-1k-bitstring-pairs-of-length-1k' benchmark
   'fastbitset' ran in 24.5 ms
   'bitset-mut' ran in 31.0 ms
 ```
+
+### `BitSet.setRange`
+
+`bitset-mut` is fastest, `bitset` is ~10x slower.
+
+```
+Running '10-times-100k-ranges' benchmark
+  'bitset' ran in 1350.9 ms
+  'bitset-mut' ran in 133.8 ms
+```
+
+`fastbitset` does not support `setRange`.
+
+### `BitSet.xor`
+
+`fastbitset` and `bitset-mut` are fastest. `bitset` is slowest.
+
+```
+Running '10-times-1k-bitstring-pairs-of-length-1k' benchmark
+  'bitset' ran in 37.9 ms
+  'bitset-mut' ran in 28.8 ms
+  'fastbitset' ran in 28.1 ms
+```
+
+Note: `fastbitset` calls this method `change` instead of `xor`.
