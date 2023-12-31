@@ -20,6 +20,12 @@ As the package name suggests, most methods mutate the original `BitSet` instead 
 
 This can be worked around by cloning before mutating via the `clone()` method.
 
+## Performance
+
+This package is benchmarked against other popular bit set implementations in the `benchmarks/` directory. An overview is available at [benchmarks/README.md][benchmarks_readme].
+
+[benchmarks_readme]: https://github.com/alexharri/bitset-mut/blob/master/benchmarks/README.md
+
 ## Basic usage
 
 ```tsx
