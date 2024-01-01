@@ -68,7 +68,11 @@ export class BitSet {
     to: number,
     value: number | boolean = 1
   ): BitSet {
-    if (from > to) [from, to] = [to, from];
+    if (from > to) {
+      const temp = from;
+      from = to;
+      to = temp;
+    }
 
     const w0 = from >> WORD_LOG;
     const w1 = to >> WORD_LOG;
@@ -134,7 +138,11 @@ export class BitSet {
   }
 
   public flipRange(from: number, to: number): BitSet {
-    if (from > to) [from, to] = [to, from];
+    if (from > to) {
+      const temp = from;
+      from = to;
+      to = temp;
+    }
 
     const w0 = from >> WORD_LOG;
     const w1 = to >> WORD_LOG;
@@ -173,12 +181,16 @@ export class BitSet {
     if (typeof to === "number" && from == null) from = 0;
     if (from == null) return this.clone();
     if (to == null) to = this.size;
-    if (from > to) [from, to] = [to, from];
+    if (from > to) {
+      const temp = from;
+      from = to;
+      to = temp;
+    }
 
     const bitset = new BitSet();
     bitset.size = to - from; // Pre-allocate
 
-    for (const bit of this.iterRange(from, to)) bitset.set(bit - from);
+    this.forEachInRange(from, to, (bit) => bitset.set(bit - from!));
 
     return bitset;
   }
@@ -312,7 +324,12 @@ export class BitSet {
   public equals(bits: IBits): boolean {
     let w0 = this.words;
     let w1 = toWords(bits);
-    if (w0.length < w1.length) [w0, w1] = [w1, w0];
+    if (w0.length < w1.length) {
+      const temp = w1;
+      w1 = w0;
+      w0 = temp;
+    }
+    // if (w0.length < w1.length) [w0, w1] = [w1, w0];
     for (let i = 0; i < w1.length; i++) {
       if (w0[i] !== w1[i]) return false;
     }
@@ -373,14 +390,12 @@ export class BitSet {
     return out;
   }
 
-  *iterWords(): IterableIterator<[index: number, word: number]> {
-    for (let i = 0; i < this.words.length; i++) {
-      yield [i * WORD_LEN, this.words[i]];
+  forEachInRange(from: number, to: number, callback: (index: number) => void) {
+    if (from > to) {
+      const temp = from;
+      from = to;
+      to = temp;
     }
-  }
-
-  *iterRange(from: number, to: number): IterableIterator<number> {
-    if (from > to) [from, to] = [to, from];
     const w0 = from >> WORD_LOG;
     const w1 = to >> WORD_LOG;
     for (let i = w0; i <= w1; i++) {
@@ -394,13 +409,13 @@ export class BitSet {
       if (start < WORD_LEN_HALF && (w & WORD_FIRST_HALF_MASK) !== 0) {
         const firstHalfEnd = Math.min(WORD_LEN_HALF, end);
         for (let b = start; b < firstHalfEnd; b++) {
-          if ((w & (1 << b)) != 0) yield wordBase + b;
+          if ((w & (1 << b)) != 0) callback(wordBase + b);
         }
       }
       if (end > WORD_LEN_HALF && (w & WORD_LATTER_HALF_MASK) !== 0) {
         const latterHalfStart = Math.max(WORD_LEN_HALF, start);
         for (let b = latterHalfStart; b < end; b++) {
-          if ((w & (1 << b)) != 0) yield wordBase + b;
+          if ((w & (1 << b)) != 0) callback(wordBase + b);
         }
       }
     }

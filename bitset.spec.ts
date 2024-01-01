@@ -8,7 +8,9 @@ function expectBits(bitset: BitSet, bits: string) {
 
 function expectBitIndices(bitset: BitSet, expectedIndices: number[]) {
   const actualIndices = [];
-  for (const [wi, word] of bitset.iterWords()) {
+  for (let i = 0; i < bitset.words.length; i++) {
+    const wi = i * WORD_LEN;
+    const word = bitset.words[i];
     for (let bi = 0; bi < WORD_LEN; bi += 1) {
       if ((word & (1 << bi)) !== 0) {
         actualIndices.push(wi + bi);
