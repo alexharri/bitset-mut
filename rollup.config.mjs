@@ -15,7 +15,9 @@ const config = {
       exclude: ["./benchmarks/**", "**/*.spec.ts"],
     }),
     copy({
-      targets: [{ src: ["README.md", "package.json"], dest: "dist" }],
+      targets: [
+        { src: ["README.md", "LICENSE.md", "package.json"], dest: "dist" },
+      ],
     }),
   ],
 };
