@@ -31,7 +31,7 @@ jobs:
 
       - name: Publish to npm
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
           SHOULD_PUBLISH=$(./should-publish.sh);
           if [ $SHOULD_PUBLISH == "TRUE" ]; then
