@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "bitset-mut",
   "main": "bitset.js",
   "module": "bitset.esm.js",
@@ -35,5 +35,6 @@
   },
   "contributors": [
     "Alex Harri Jónsson <alexharri2919@gmail.com> (https://alexharri.com)"
-  ]
+  ],
+  "license": "MIT"
 }
