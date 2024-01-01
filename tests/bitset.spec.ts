@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { BitSet } from "./src/bitset";
-import { WORD_LEN } from "./src/constants";
+import { BitSet } from "../src/bitset";
+import { WORD_LEN } from "../src/constants";
 
 function expectBits(bitset: BitSet, bits: string) {
   expect(String(bitset)).toEqual(bits);
