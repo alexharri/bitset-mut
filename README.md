@@ -6,6 +6,18 @@
   A highly performant JavaScript bit set, with a nice-to-use interface.
 </p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/bitset-mut" target="_blank">
+    <img src="https://img.shields.io/npm/v/bitset-mut.svg?style=flat" />
+  </a>
+  <a href="https://bundlephobia.com/package/bitset-mut" target="_blank">
+    <img src="https://img.shields.io/bundlephobia/minzip/bitset-mut?label=Size%20%28gzip%29" />
+  </a>
+  <a href="https://github.com/alexharri/bitset-mut/blob/master/LICENSE.md">
+    <img src="https://img.shields.io/github/license/alexharri/bitset-mut" />
+  </a>
+</p>
+
 ---
 
 The `bitset-mut` package exports a single `BitSet` class.
