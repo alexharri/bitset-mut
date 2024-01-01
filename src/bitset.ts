@@ -213,6 +213,9 @@ export class BitSet {
     return bitset;
   }
 
+  /**
+   * Inverts every bit in the bit set, changing 0 to 1 and 1 to 0.
+   */
   public invert(): BitSet {
     const w = this.words;
     for (let i = 0; i < w.length; i++) {
@@ -235,6 +238,9 @@ export class BitSet {
     return this.has(index) ? 1 : 0;
   }
 
+  /**
+   * Performs bitwise AND (intersection), mutating the `BitSet`.
+   */
   public and(other: BitSet): BitSet {
     const w0 = this.words;
     const w1 = other.words;
@@ -261,6 +267,9 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Performs bitwise AND NOT (subtraction), mutating the `BitSet`.
+   */
   public andNot(other: IBits): BitSet {
     const w0 = this.words;
     const w1 = toWords(other);
@@ -272,6 +281,9 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Performs bitwise OR (union), mutating the `BitSet`.
+   */
   public or(other: IBits): BitSet {
     const w = toWords(other);
 
@@ -284,6 +296,9 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Performs bitwise XOR, mutating the `BitSet`.
+   */
   public xor(other: IBits): BitSet {
     const w = toWords(other);
 
@@ -329,7 +344,7 @@ export class BitSet {
   }
 
   /**
-   * @returns the number of bits set to 1 in this BitSet
+   * Returns the number of bits (i.e. count) set to 1.
    */
   public cardinality(): number {
     const words = this.words;
@@ -342,6 +357,10 @@ export class BitSet {
     return cardinality;
   }
 
+  /**
+   * Returns true if this and the other `BitSet` are equal (have the same bits
+   * set to 1). The size of the `BitSet`s is not considered.
+   */
   public equals(bits: IBits): boolean {
     let w0 = this.words;
     let w1 = toWords(bits);
@@ -360,6 +379,10 @@ export class BitSet {
     return true;
   }
 
+  /**
+   * Returns true if this and the other `BitSet` have any bits set to 1 in
+   * common (i.e. if they overlap).
+   */
   public intersects(bits: IBits): boolean {
     let w0 = this.words;
     let w1 = toWords(bits);
@@ -370,12 +393,15 @@ export class BitSet {
     return false;
   }
 
+  /**
+   * Returns true if no bits are set to 1.
+   */
   public isEmpty(): boolean {
     return this.words.every((w) => w === 0);
   }
 
   /**
-   * Returns the number of bits that are in use by this BitSet
+   * Returns the number of bits in the `BitSet`, including both bits set to 1 and 0.
    */
   public get size(): number {
     return this.words.length * WORD_LEN;
@@ -391,20 +417,29 @@ export class BitSet {
   }
 
   /**
-   * Returns the number of integers (32 bit) that are in use by this BitSet
+   * Returns the number of words (32-bit integers) in the `BitSet`.
    */
   public get length(): number {
     return this.words.length;
   }
 
+  /**
+   * Returns a clone of the `BitSet`.
+   */
   public clone(): BitSet {
     return new BitSet(this);
   }
 
+  /**
+   * Returns the `BitSet` serialized as a bit string (e.g. `"10001010"`).
+   */
   public toString() {
     return toString(this.words);
   }
 
+  /**
+   * Returns an array containing the index of each set bit (in ascending order).
+   */
   public toArray() {
     const out: number[] = [];
     this.forEach((i) => out.push(i));
@@ -442,6 +477,9 @@ export class BitSet {
     }
   }
 
+  /**
+   * Invokes `callback` with the index of every bit set to 1, in ascending order.
+   */
   forEach(callback: (index: number) => void) {
     const words = this.words;
     const len = words.length;

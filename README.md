@@ -452,7 +452,7 @@ class BitSet {
 }
 ```
 
-Returns an array containing the index of each set bit (in ascending order)
+Returns an array containing the index of each set bit (in ascending order).
 
 <h3 id="BitSet.cardinality">BitSet.cardinality()</h3>
 
