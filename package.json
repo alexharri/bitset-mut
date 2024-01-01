@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": "bitset-mut",
   "main": "bitset.js",
   "module": "bitset.esm.js",
@@ -36,5 +36,19 @@
   "contributors": [
     "Alex Harri Jónsson <alexharri2919@gmail.com> (https://alexharri.com)"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "bitset",
+    "bit set",
+    "bit",
+    "bits",
+    "set",
+    "bitmask",
+    "bit mask",
+    "bit array",
+    "bitvector",
+    "bit vector",
+    "bitstring",
+    "bit string"
+  ]
 }
