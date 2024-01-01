@@ -12,4 +12,3 @@ else
   # Does not exist in npm. Should publish.
   echo TRUE;
 fi
-z
