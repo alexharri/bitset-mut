@@ -31,14 +31,14 @@ This package is benchmarked against other popular bit set implementations in the
 ```tsx
 import { BitSet } from "bitset-mut";
 
-const a = new BitSet("11110101");
-const b = new BitSet([0, 2, 7]);
+const a = new BitSet();
+const b = new BitSet();
 
-a.add(1).remove(5);
-b.flip(4, 6);
+a.add(0).add(2);
+b.flip(4, 7);
 
-console.log(a.and(b).toString());
-//=> "11010101"
+console.log(a.or(b).toString());
+//=> "11110101"
 ```
 
 ## Creating a `BitSet`
