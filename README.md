@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  A highly performant bit set implementation, with a nice-to-use interface.
+  A highly performant JavaScript bit set, with a nice-to-use interface.
 </p>
 
 ---
