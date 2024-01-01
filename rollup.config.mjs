@@ -1,17 +1,21 @@
 import typescript from "@rollup/plugin-typescript";
+import copy from "rollup-plugin-copy";
 
 const config = {
   input: "src/bitset.ts",
   external: [],
   output: [
-    { file: "dist/src/bitset.js", format: "cjs" },
-    { file: "dist/src/bitset.esm.js", format: "es" },
+    { file: "dist/bitset.js", format: "cjs" },
+    { file: "dist/bitset.esm.js", format: "es" },
   ],
   plugins: [
     typescript({
       declaration: true,
       compilerOptions: { outDir: "dist" },
-      exclude: ["./benchmarks/**"],
+      exclude: ["./benchmarks/**", "**/*.spec.ts"],
+    }),
+    copy({
+      targets: [{ src: ["package.json"], dest: "dist" }],
     }),
   ],
 };
