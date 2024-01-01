@@ -210,7 +210,7 @@ class BitSet {
 }
 ```
 
-Flips the bit between `from` and `to` (inclusive), changing 0 to 1 and 1 to 0.
+Flips the bits between `from` and `to` (inclusive), changing 0 to 1 and 1 to 0.
 
 <h3 id="BitSet.slice">BitSet.slice()</h3>
 

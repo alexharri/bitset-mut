@@ -127,9 +127,12 @@ export class BitSet {
   }
 
   /**
-   * Flip the bit at the provided index
+   * Flips the bit at index, changing 0 to 1 and 1 to 0.
    */
   public flip(index: number): BitSet;
+  /**
+   * Flips the bits between `from` and `to` (inclusive), changing 0 to 1 and 1 to 0.
+   */
   public flip(from: number, to: number): BitSet;
   public flip(indexOrFrom: number, to?: number): BitSet {
     if (typeof to === "number") return this.flipRange(indexOrFrom, to);
@@ -139,6 +142,9 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Flips the bits between `from` and `to` (inclusive), changing 0 to 1 and 1 to 0.
+   */
   public flipRange(from: number, to: number): BitSet {
     if (from > to) {
       const temp = from;
@@ -179,6 +185,16 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Clones the bit set. To clone a specific portion, use
+   * `BitSet.slice(from, to)`.
+   */
+  public slice(): BitSet;
+  /**
+   * Returns a new `BitSet` only containing the bits in the range `from`
+   * (inclusive) and `to` (exclusive).
+   */
+  public slice(from: number, to: number): BitSet;
   public slice(from?: number, to?: number): BitSet {
     if (typeof to === "number" && from == null) from = 0;
     if (from == null) return this.clone();
