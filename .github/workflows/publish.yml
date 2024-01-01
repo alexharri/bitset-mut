@@ -33,6 +33,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
           SHOULD_PUBLISH=$(./should-publish.sh);
           if [ $SHOULD_PUBLISH == "TRUE" ]; then
             echo "Publishing";
