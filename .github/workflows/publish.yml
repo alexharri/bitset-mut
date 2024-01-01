@@ -1,0 +1,43 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Do not publish before type checking and testing
+      - name: Type check
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          SHOULD_PUBLISH=$(./should-publish.sh);
+          if [ $SHOULD_PUBLISH == "TRUE" ]; then
+            echo "Publishing";
+            cd dist && npm publish;
+          else
+            echo "Version already exists in npm. Skipping publish.";
+          fi
