@@ -1,5 +1,5 @@
 {
-  "version": "1.0.5",
+  "version": "1.0.6",
   "name": "bitset-mut",
   "main": "bitset.js",
   "module": "bitset.esm.js",

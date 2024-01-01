@@ -288,7 +288,7 @@ export class BitSet {
     const w = toWords(other);
 
     // Make this bitset _at least_ as long as the BitSet being passed
-    resize(this.words, w.length);
+    resize(this.words, w.length - 1);
 
     for (let i = 0; i < w.length; i++) {
       this.words[i] |= w[i];
@@ -303,7 +303,7 @@ export class BitSet {
     const w = toWords(other);
 
     // Make this bitset _at least_ as long as the BitSet being passed
-    resize(this.words, w.length);
+    resize(this.words, w.length - 1);
 
     for (let i = 0; i < w.length; i++) {
       this.words[i] ^= w[i];
@@ -413,7 +413,7 @@ export class BitSet {
       this.words.length = length;
       return;
     }
-    resize(this.words, length);
+    resize(this.words, Math.max(0, length - 1));
   }
 
   /**
@@ -520,8 +520,8 @@ export class BitSet {
   }
 }
 
-function resize(words: number[], length: number) {
-  for (let i = words.length; i < length; i++) {
+function resize(words: number[], wordIndex: number) {
+  for (let i = words.length; i <= wordIndex; i++) {
     words.push(0);
   }
 }

@@ -524,4 +524,86 @@ describe("BitSet", () => {
       [13, 15, 16, 17, 18, 20, 29, 30, 31, 32, 33, 34, 36].map((x) => x - 13)
     );
   });
+
+  test("resize", () => {
+    expect(new BitSet().size).toEqual(0);
+
+    {
+      // BitSet.set
+      const a = new BitSet();
+      a.set(31);
+      expect(a.size).toEqual(32);
+      a.set(63);
+      expect(a.size).toEqual(64);
+    }
+
+    {
+      // BitSet.setRange
+      const a = new BitSet();
+      a.setRange(31, 0);
+      expect(a.size).toEqual(32);
+      a.setRange(40, 63);
+      expect(a.size).toEqual(64);
+      a.setRange(63, 95);
+      expect(a.size).toEqual(96);
+    }
+
+    {
+      // BitSet.add
+      const a = new BitSet();
+      a.add(31);
+      expect(a.size).toEqual(32);
+      a.add(63);
+      expect(a.size).toEqual(64);
+    }
+
+    {
+      // BitSet.flip
+      const a = new BitSet();
+      a.flip(31);
+      expect(a.size).toEqual(32);
+      a.flip(63);
+      expect(a.size).toEqual(64);
+    }
+
+    {
+      // BitSet.flipRange
+      const a = new BitSet();
+      a.flipRange(31, 0);
+      expect(a.size).toEqual(32);
+      a.flipRange(40, 63);
+      expect(a.size).toEqual(64);
+      a.flipRange(63, 95);
+      expect(a.size).toEqual(96);
+    }
+
+    {
+      // BitSet.or
+      const a = new BitSet();
+      a.or(new BitSet([31]));
+      expect(a.size).toEqual(32);
+      a.or(new BitSet([63]));
+      expect(a.size).toEqual(64);
+    }
+
+    {
+      // BitSet.xor
+      const a = new BitSet();
+      a.xor(new BitSet([31]));
+      expect(a.size).toEqual(32);
+      a.xor(new BitSet([63]));
+      expect(a.size).toEqual(64);
+    }
+
+    {
+      // BitSet.size
+      const a = new BitSet();
+      a.size = 5;
+      expect(a.size).toEqual(32);
+      a.size = 50;
+      expect(a.size).toEqual(64);
+      a.size = 10;
+      expect(a.size).toEqual(32);
+    }
+  });
 });
