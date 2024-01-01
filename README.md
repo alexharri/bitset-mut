@@ -41,7 +41,7 @@ console.log(a.or(b).toString());
 //=> "11110101"
 ```
 
-## Creating a `BitSet`
+### Creating a BitSet
 
 The `BitSet` constructor accepts:
 
@@ -75,6 +75,22 @@ BitSet.random(10).toString();
 //=> "101001101"
 ```
 
+### Serializing a BitSet
+
+The `toString` method on `BitSet` returns a string of 0s and 1s.
+
+```tsx
+BitSet.fromBitMask(0b1001).toString();
+//=> "1001"
+```
+
+You can also use the `toArray` method to get an array containing the index of each set bit (in ascending order):
+
+```tsx
+BitSet.fromBitMask(0b1001).toArray();
+//=> [0, 3]
+```
+
 ## Usage
 
 - [BitSet.add](#BitSet.add)
@@ -99,6 +115,7 @@ BitSet.random(10).toString();
 - [BitSet.forEach](#BitSet.forEach)
 - [BitSet[Symbol.iterator]](#BitSet[Symbol.iterator])
 - [BitSet.toString](#BitSet.toString)
+- [BitSet.toArray](#BitSet.toArray)
 - [BitSet.size](#BitSet.size)
 - [BitSet.length](#BitSet.length)
 - [BitSet.cardinality](#BitSet.cardinality)
@@ -411,6 +428,18 @@ class BitSet {
 }
 ```
 
+Returns the `BitSet` serialized as a bit string (e.g. `"10001010"`).
+
+<h3 id="BitSet.toArray">BitSet.toArray()</h3>
+
+```tsx
+class BitSet {
+  toArray(): number[];
+}
+```
+
+Returns an array containing the index of each set bit (in ascending order)
+
 <h3 id="BitSet.cardinality">BitSet.cardinality()</h3>
 
 ```tsx
@@ -421,9 +450,6 @@ class BitSet {
 
 Returns the number of bits (i.e. count) set to 1.
 
-
-Returns the `BitSet` serialized as a bit string (e.g. `"10001010"`).
-
 <h3 id="BitSet.size">BitSet.size</h3>
 
 ```tsx
@@ -432,7 +458,7 @@ class BitSet {
 }
 ```
 
-Returns the number of bits in the `BitSet`.
+Returns the number of bits in the `BitSet`, including both bits set to 1 and 0.
 
 <h3 id="BitSet.length">BitSet.length</h3>
 

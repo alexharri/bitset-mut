@@ -367,6 +367,12 @@ export class BitSet {
     return toString(this.words);
   }
 
+  public toArray() {
+    const out: number[] = [];
+    this.forEach((i) => out.push(i));
+    return out;
+  }
+
   *iterWords(): IterableIterator<[index: number, word: number]> {
     for (let i = 0; i < this.words.length; i++) {
       yield [i * WORD_LEN, this.words[i]];
