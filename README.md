@@ -160,6 +160,8 @@ class BitSet {
 }
 ```
 
+Returns true if the bit at `index` is set to 0, and false otherwise.
+
 <h3 id="BitSet.set">BitSet.set(index, value)</h3>
 
 ```tsx

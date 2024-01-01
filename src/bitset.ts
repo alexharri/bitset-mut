@@ -46,10 +46,8 @@ export class BitSet {
   }
 
   /**
-   * Set bit at index to 0 or 1 (default 1)
-   *
-   * @param index index of bit to set
-   * @param value 0 or 1
+   * Sets the bit at `index` to 1 if `value` is truthy, and 0 otherwise. If
+   * `value` is not provided, it defaults to 1.
    */
   public set(index: number, value: number | boolean = 1): BitSet {
     const w = index >> WORD_LOG;
@@ -63,6 +61,10 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Sets the bits between from and to (inclusive) to 1 if value is truthy, and
+   * 0 otherwise. If value is not provided, it defaults to 1.
+   */
   public setRange(
     from: number,
     to: number,
@@ -102,7 +104,7 @@ export class BitSet {
   }
 
   /**
-   * Set bit at index to 1 (i.e. add it to the set)
+   * Sets the bit at `index` to 1, adding `index` to the set.
    */
   public add(index: number): BitSet {
     const w = index >> WORD_LOG;
@@ -113,7 +115,7 @@ export class BitSet {
   }
 
   /**
-   * Set bit at index to 0 (i.e. remove it from the set)
+   * Sets the bit at `index` to 0, removing `index` from the set.
    */
   public remove(index: number): BitSet {
     return this.set(index, 0);
@@ -203,6 +205,9 @@ export class BitSet {
     return this;
   }
 
+  /**
+   * Returns true if the bit at `index` is set to 0, and false otherwise.
+   */
   public has(index: number): boolean {
     const w = index >> WORD_LOG;
     const bit = 1 << index;
